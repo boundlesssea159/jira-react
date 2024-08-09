@@ -3,7 +3,7 @@ import {List} from "./list";
 import {useEffect, useState} from "react";
 import React from "react";
 import qs from "qs"
-import {cleanObject} from "../../utils";
+import {cleanObject, useDebounce} from "../../utils";
 
 const serviceUrl = process.env.REACT_APP_API_URL
 export const ProjectListScreen = () => {
@@ -14,14 +14,16 @@ export const ProjectListScreen = () => {
     })
     const [list, setList] = useState([])
 
+    const debouncedParam = useDebounce(param, 2000)
+
     useEffect(() => {
-        fetch(`${serviceUrl}/projects?${qs.stringify(cleanObject(param))}`).then(async response => {
+        fetch(`${serviceUrl}/projects?${qs.stringify(cleanObject(debouncedParam))}`).then(async response => {
             if (response.ok) {
                 setList(await response.json())
             }
         })
 
-    }, [param])
+    }, [debouncedParam])
 
     useEffect(() => {
         fetch(`${serviceUrl}/users`).then(async response => {
