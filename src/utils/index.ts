@@ -1,19 +1,32 @@
 import {useEffect, useState} from "react";
 
-export const isFalsy = (value) => value === 0 ? false : !value
+export const isFalsy = (value:any) => value === 0 ? false : !value
 
-export const cleanObject = (object) => {
+export const cleanObject = (object:object) => {
     const result = {...object}
     Object.keys(result).forEach(key => {
+        // @ts-ignore
         const value = object[key]
         if (isFalsy(value)) {
+            // @ts-ignore
             delete result[key]
         }
     })
     return result
 }
 
-export const useDebounce = (value, delay) => {
+
+export interface Param {
+    name: string,
+    personId: string
+}
+
+interface UseDebounceParam {
+    value: Param,
+    delay: number
+}
+
+export const useDebounce = ({value, delay}: UseDebounceParam) => {
     const [debouncedValue, setDebouncedValue] = useState(value)
 
     useEffect(() => {
