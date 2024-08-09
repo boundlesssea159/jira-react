@@ -1,0 +1,28 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "高修文"
+    },
+    {
+      "id": 2,
+      "name": "李美娟"
+    }
+  ],
+  "projects": [
+    {
+      "id": 1,
+      "name": "骑手管理",
+      "personId": 1,
+      "organization": "外卖组",
+      "created": "2023-03-01T08:00:00.000Z"
+    },
+    {
+      "id": 2,
+      "name": "送餐管理",
+      "personId": 2,
+      "organization": "外卖组",
+      "created": "2023-03-02T08:00:00.000Z"
+    }
+  ]
+}
