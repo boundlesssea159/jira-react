@@ -1,9 +1,24 @@
 import React, {FormEvent} from "react";
 
+const serviceUrl = process.env.REACT_APP_API_URL
 export const LoginScreen = () => {
-
-    const handleSubmit = (event: FormEvent) => {
-
+    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        const username = (event.currentTarget.elements[0] as HTMLFormElement).value;
+        const password = (event.currentTarget.elements[1] as HTMLFormElement).value;
+        fetch(`${serviceUrl}/login`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                username,
+                password
+            })
+        }).then(async response => {
+            if (response.ok) {
+            }
+        })
     }
 
     return (
@@ -17,7 +32,7 @@ export const LoginScreen = () => {
                     <label>密码</label>
                     <input id={"password"} type={"password"}/>
                 </div>
-                <button type={"button"}>登录</button>
+                <button type={"submit"}>登录</button>
             </form>
         </div>
     )
