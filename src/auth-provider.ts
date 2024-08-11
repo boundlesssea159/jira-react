@@ -14,7 +14,7 @@ export const handleUserResponse = ({user}: { user: User }) => {
 }
 
 export const login = (data: { username: string, password: string }) => {
-    fetch(`${serviceUrl}/login`, {
+   return fetch(`${serviceUrl}/login`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -24,11 +24,12 @@ export const login = (data: { username: string, password: string }) => {
         if (response.ok) {
             return handleUserResponse(await response.json())
         }
+        return Promise.reject(data)
     })
 }
 
 export const register = (data: { username: string, password: string }) => {
-    fetch(`${serviceUrl}/register`, {
+   return fetch(`${serviceUrl}/register`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -38,8 +39,8 @@ export const register = (data: { username: string, password: string }) => {
         if (response.ok) {
             return handleUserResponse(await response.json())
         }
+       return Promise.reject(data)
     })
 }
 
-export const logout = async () =>
-    window.localStorage.removeItem(localStorageKey)
+export const logout = async () => window.localStorage.removeItem(localStorageKey)

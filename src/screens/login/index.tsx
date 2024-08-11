@@ -1,4 +1,5 @@
 import React, {FormEvent} from "react";
+import {useAuth} from "../../context/auth-context";
 
 
 // todo
@@ -6,6 +7,7 @@ import React, {FormEvent} from "react";
 // 2. 登录状态的记录，登录状态下要展示列表页
 const serviceUrl = process.env.REACT_APP_API_URL
 export const LoginScreen = () => {
+    const context = useAuth()
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const username = (event.currentTarget.elements[0] as HTMLFormElement).value;
@@ -28,6 +30,9 @@ export const LoginScreen = () => {
     return (
         <div>
             <form onSubmit={handleSubmit}>
+                {
+                    context.user ? <div>登录成功，用户名:{context.user?.name}</div> : null
+                }
                 <div>
                     <label>用户名</label>
                     <input id={"username"} type={"text"}/>
