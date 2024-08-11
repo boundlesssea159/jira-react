@@ -1,5 +1,9 @@
 import React, {FormEvent} from "react";
 
+
+// todo
+// 1. 登录页和注册页的切换
+// 2. 登录状态的记录，登录状态下要展示列表页
 const serviceUrl = process.env.REACT_APP_API_URL
 export const LoginScreen = () => {
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
