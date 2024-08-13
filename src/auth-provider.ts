@@ -4,17 +4,17 @@ const localStorageKey = "__auth_provider_token__";
 
 const serviceUrl = process.env.REACT_APP_API_URL
 
-export const getToke = () => {
+export const getUserToke = () => {
     return window.localStorage.getItem(localStorageKey)
 }
 
-export const handleUserResponse = ({user}: { user: User }) => {
+export const setUserTokenToLocalStorage = ({user}: { user: User }) => {
     window.localStorage.setItem(localStorageKey, user.token || "")
     return user
 }
 
 export const login = (data: { username: string, password: string }) => {
-   return fetch(`${serviceUrl}/login`, {
+    return fetch(`${serviceUrl}/login`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -22,14 +22,18 @@ export const login = (data: { username: string, password: string }) => {
         body: JSON.stringify(data)
     }).then(async response => {
         if (response.ok) {
-            return handleUserResponse(await response.json())
+            return setUserTokenToLocalStorage(await response.json())
         }
         return Promise.reject(data)
+    }).catch(error => {
+        console.log(error)
+        return Promise.reject(error)
     })
 }
 
 export const register = (data: { username: string, password: string }) => {
-   return fetch(`${serviceUrl}/register`, {
+
+    return fetch(`${serviceUrl}/register`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -37,9 +41,12 @@ export const register = (data: { username: string, password: string }) => {
         body: JSON.stringify(data)
     }).then(async response => {
         if (response.ok) {
-            return handleUserResponse(await response.json())
+            return setUserTokenToLocalStorage(await response.json())
         }
-       return Promise.reject(data)
+        return Promise.reject(data)
+    }).catch(error => {
+        console.log(error)
+        return Promise.reject(error)
     })
 }
 

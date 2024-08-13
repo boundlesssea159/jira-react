@@ -1,18 +1,22 @@
 import React from 'react';
 import './App.css';
-import {ProjectListScreen} from "./screens/project-list";
-import {LoginScreen} from "./screens/login";
-import {AuthProvider} from "./context/auth-context";
-import {AppProviders} from "./context";
+import {AuthContextProvider, useAuth} from "./context/auth-context";
+import {UnauthenticatedApp} from "./unauthenticated-app";
+import {AuthenticatedApp} from "./authenticated-app";
 
 function App() {
     return (
-        <div className="App">
-            <AppProviders>
-                <LoginScreen/>
-            </AppProviders>
-        </div>
+        <AuthContextProvider>
+            <div className="App">
+                <InnerApp/>
+            </div>
+        </AuthContextProvider>
     );
+}
+
+const InnerApp = () => {
+    const {user} = useAuth()
+    return user && user.token ? <AuthenticatedApp/> : <UnauthenticatedApp/>
 }
 
 export default App;
