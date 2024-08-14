@@ -8,8 +8,8 @@ export const UnauthenticatedApp = () => {
         event.preventDefault();
         const username = (event.currentTarget.elements[0] as HTMLInputElement).value;
         const password = (event.currentTarget.elements[1] as HTMLInputElement).value;
-        isRegister ? register({username, password}).catch(() => alert("服务器错误"))
-            : login({username, password}).catch(() => alert("用户名或密码错误"))
+        isRegister ? register({username, password}).catch((error) => alert(error))
+            : login({username, password}).catch((error) => alert(error))
     }
 
     return (

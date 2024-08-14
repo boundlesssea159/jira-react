@@ -15,40 +15,25 @@ export const setUserTokenToLocalStorage = ({user}: { user: User }) => {
     return user
 }
 
-export const login = (data: { username: string, password: string }) => {
-    return fetch(`${serviceUrl}/login`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    }).then(async response => {
-        if (response.ok) {
-            return setUserTokenToLocalStorage(await response.json())
-        }
-        return Promise.reject(data)
-    }).catch(error => {
-        console.log(error)
-        return Promise.reject(error)
-    })
+export const login = async (data: { username: string, password: string }) => {
+    return initUser("/login", data)
 }
 
 export const register = (data: { username: string, password: string }) => {
-    return fetch(`${serviceUrl}/register`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    }).then(async response => {
-        if (response.ok) {
-            return setUserTokenToLocalStorage(await response.json())
+    return initUser("/register", data)
+}
+
+export const initUser = async (endpoint: string, account: { username: string, password: string }) => {
+    const result = await query(endpoint, {
+        data: {
+            username: account.username,
+            password: account.password
         }
-        return Promise.reject(data)
-    }).catch(error => {
-        console.log(error)
-        return Promise.reject(error)
-    })
+    });
+    if (result.user.token !== "") {
+        return setUserTokenToLocalStorage(result)
+    }
+    return Promise.reject(result)
 }
 
 export const logout = async () => window.localStorage.removeItem(localStorageKey)
@@ -72,7 +57,7 @@ export const query = (endPoint: string, {data, token, ...customConfig}: QueryPar
     } else {
         config.body = JSON.stringify(data || {})
     }
-    return fetch(`${serviceUrl}/${endPoint}`, config)
+    return fetch(`${serviceUrl}${endPoint}`, config)
         .then(async response => {
             if (response.status === 401) {
                 await logout();
@@ -81,7 +66,7 @@ export const query = (endPoint: string, {data, token, ...customConfig}: QueryPar
             }
             const data = await response.json();
             if (response.ok) {
-                return Promise.resolve(data);
+                return data;
             }
             return Promise.reject(data);
         })
