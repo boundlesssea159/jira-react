@@ -1,5 +1,8 @@
+import React from "react";
 import {User} from "./screens/project-list/list";
 import qs from "qs";
+import {useAuth} from "./context/auth-context";
+
 
 const localStorageKey = "__auth_provider_token__";
 
@@ -70,4 +73,9 @@ export const query = (endPoint: string, {data, token, ...customConfig}: QueryPar
             }
             return Promise.reject(data);
         })
+}
+
+export const useQueryWithToken = () => {
+    const context = useAuth();
+    return (endPoint: string, param: QueryParam) => query(endPoint, {...param, token: context.user?.token})
 }
