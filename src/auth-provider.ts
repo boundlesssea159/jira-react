@@ -77,5 +77,5 @@ export const query = (endPoint: string, {data, token, ...customConfig}: QueryPar
 
 export const useQueryWithToken = () => {
     const context = useAuth();
-    return (endPoint: string, param: QueryParam) => query(endPoint, {...param, token: context.user?.token})
+    return (...[endPoint, param]: Parameters<typeof query>) => query(endPoint, {...param, token: context.user?.token})
 }
