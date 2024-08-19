@@ -1,4 +1,5 @@
 import React from "react";
+import {Table} from "antd";
 
 
 export interface User {
@@ -16,21 +17,15 @@ interface Project {
 }
 
 export const List = ({list, users}: { list: Project[], users: User[] }) => {
-    return <table>
-        <thead>
-        <tr>
-            <th>名词</th>
-            <th>负责人</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        {
-            list.map(project => <tr key={project.id}>
-                <td>{project.name}</td>
-                <td>{users.find(user => user.id === project.personId)?.name || "未知"}</td>
-            </tr>)
+    return <Table dataSource={list} columns={[{
+        title: '名称',
+        dataIndex: 'name',
+        sorter: (a: Project, b: Project) => a.name.localeCompare(b.name),
+    }, {
+        title: '负责人',
+        dataIndex: 'personId',
+        render: (personId: string) => {
+            return <span>{users.find(user => user.id === personId)?.name || "未知"}</span>
         }
-        </tbody>
-    </table>
+    }]}/>
 }
