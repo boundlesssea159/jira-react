@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import {useAuth} from "../context/auth-context";
-import {Button, Card, Form, Input} from "antd";
+import {Button, Card, Divider, Form, Input} from "antd";
+import styled from "@emotion/styled";
 
 
 export const UnauthenticatedApp = () => {
@@ -12,8 +13,9 @@ export const UnauthenticatedApp = () => {
     }
 
     return (
-        <div style={{display: "flex", justifyContent: "center"}}>
-            <Card>
+        <Container>
+            <ShadowCard>
+                <Title>{isRegister ? "请注册" : "请登录"}</Title>
                 <Form onFinish={handleSubmit}>
                     <Form.Item name={"username"} rules={[{required: true, message: "请输入用户名"}]}>
                         <Input placeholder={"用户名"} id={"username"} type={"text"}/>
@@ -22,12 +24,41 @@ export const UnauthenticatedApp = () => {
                         <Input placeholder={"密码"} id={"password"} type={"password"}/>
                     </Form.Item>
                     <Form.Item>
-                        <Button htmlType={"submit"} type={"primary"}>{isRegister ? "注册" : "登录"}</Button>
+                        <LongButton htmlType={"submit"} type={"primary"}>{isRegister ? "注册" : "登录"}</LongButton>
                     </Form.Item>
                 </Form>
-                <button type={"button"}
-                        onClick={() => setIsRegister(!isRegister)}>{`切换到${isRegister ? "登录" : "注册"}`}</button>
-            </Card>
-        </div>
+                <Divider/>
+                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                <a type={"button"}
+                   onClick={() => setIsRegister(!isRegister)}>{`${isRegister ? "已经有账号了？直接登录" : "没有账号？注册新账号"}`}</a>
+            </ShadowCard>
+        </Container>
     )
 }
+
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+`
+
+const ShadowCard = styled(Card)`
+  width: 40rem;
+  min-height: 56rem;
+  padding: 3.2rem 4rem;
+  border-radius: 0.3rem;
+  box-sizing: border-box;
+  box-shadow: rgba(0, 0, 0, 0.1) 0 0 10px;
+  text-align: center;
+`
+
+const LongButton = styled(Button)`
+  width: 100%;
+`
+
+const Title = styled.h2`
+  margin-bottom: 2.4rem;
+  color: rgb(94, 108, 132);
+`
