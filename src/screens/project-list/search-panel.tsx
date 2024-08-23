@@ -13,14 +13,18 @@ interface SearchPanelParam {
 }
 
 export const SearchPanel = ({users, param, setParam}: SearchPanelParam) => {
-    return <Form>
-        <Input onChange={(event) => {
-            setParam({...param, name: event.target.value})
-        }}/>
-        <Select defaultValue={"负责人"} options={[{value: "", label: "负责人"}, ...users.map(user => {
-            return {value: user.id, label: user.name}
-        })]} onChange={value => {
-            setParam({...param, personId: value})
-        }}/>
+    return <Form layout={"inline"} style={{marginBottom: '2rem'}}>
+        <Form.Item>
+            <Input onChange={(event) => {
+                setParam({...param, name: event.target.value})
+            }}/>
+        </Form.Item>
+        <Form.Item>
+            <Select defaultValue={"负责人"} options={[{value: "", label: "负责人"}, ...users.map(user => {
+                return {value: user.id, label: user.name}
+            })]} onChange={value => {
+                setParam({...param, personId: value})
+            }}/>
+        </Form.Item>
     </Form>
 }

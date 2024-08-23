@@ -4,6 +4,7 @@ import {useEffect, useState} from "react";
 import React from "react";
 import qs from "qs"
 import {cleanObject, useDebounce} from "../../utils";
+import styled from "@emotion/styled";
 
 const serviceUrl = process.env.REACT_APP_API_URL
 export const ProjectListScreen = () => {
@@ -34,9 +35,13 @@ export const ProjectListScreen = () => {
         })
     }, [])
 
-    return <div>
+    return <Container>
+        <h1>项目列表</h1>
         <SearchPanel users={users} param={param} setParam={setParam}/>
         <List users={users} list={list}/>
-    </div>
+    </Container>
 }
 
+const Container = styled.div`
+  padding: 2rem;
+`
