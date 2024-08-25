@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {useAuth} from "../context/auth-context";
-import {Button, Card, Divider, Form, Input} from "antd";
+import {Button, Card, Divider, Form, Input, Typography} from "antd";
 import styled from "@emotion/styled";
 import head from 'assets/head.png';
 import left from 'assets/left.jpg';
@@ -9,9 +9,10 @@ import right from 'assets/right.jpg';
 export const UnauthenticatedApp = () => {
     const [isRegister, setIsRegister] = useState(false)
     const {login, register} = useAuth()
-    const handleSubmit = (values: { username: string, password: string }) => {
-        isRegister ? register(values).catch((error) => alert(error))
-            : login(values).catch((error) => alert(error))
+    const [error, setError] = useState<Error>();
+    const handleSubmit = async (values: { username: string, password: string }) => {
+        isRegister ? await register(values).catch((error) => setError(error))
+            : await login(values).catch((error) => setError(error))
     }
 
     return (
@@ -20,6 +21,7 @@ export const UnauthenticatedApp = () => {
             <Background/>
             <ShadowCard>
                 <Title>{isRegister ? "请注册" : "请登录"}</Title>
+                {error ? <Typography.Text type={"danger"}>{error.message.toString()}</Typography.Text> : null}
                 <Form onFinish={handleSubmit}>
                     <Form.Item name={"username"} rules={[{required: true, message: "请输入用户名"}]}>
                         <Input placeholder={"用户名"} id={"username"} type={"text"}/>
@@ -52,7 +54,7 @@ const Background = styled.div`
   background-attachment: fixed;
   background-position: left bottom, right bottom;
   background-image: url(${left}), url(${right});
-  background-size: 50% 80%,50% 80%;
+  background-size: 50% 80%, 50% 80%;
 `
 
 const Container = styled.div`

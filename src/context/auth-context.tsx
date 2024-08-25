@@ -2,7 +2,7 @@ import React, {ReactNode, useContext, useState} from "react";
 
 import {User} from "../screens/project-list/list";
 import * as auth from "auth-provider"
-import {getUserToke} from "auth-provider";
+import {getUser} from "auth-provider";
 
 export const AuthContext = React.createContext<{
     user: User | null,
@@ -17,7 +17,7 @@ interface AuthForm {
 }
 
 export const AuthContextProvider = ({children}: { children: ReactNode }) => {
-    const [user, setUser] = useState<User | null>({id: "", name: "", token: getUserToke() ?? ""})
+    const [user, setUser] = useState<User | null>({id: "", name: getUser().name ?? "", token: getUser().token ?? ""})
     const login = (form: AuthForm) => auth.login(form).then(user => setUser(user))
     const register = (form: AuthForm) => auth.register(form).then(user => setUser(user))
     const logout = () => auth.logout().then(() => setUser(null))

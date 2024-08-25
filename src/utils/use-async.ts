@@ -1,11 +1,12 @@
-import React, {useState} from "react";
+import {useState} from "react";
+
 export const useAsync = <D>() => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState("");
     const [data, setData] = useState<D>()
-    const run = (fetch: Promise<D>) => {
+    const run = (promise: Promise<D>) => {
         setIsLoading(true);
-        fetch.then((data) => {
+        promise.then((data) => {
             setData(data)
             return data
         })

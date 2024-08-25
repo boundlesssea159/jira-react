@@ -1,20 +1,21 @@
-import React from "react";
 import {User} from "./screens/project-list/list";
 import qs from "qs";
 import {useAuth} from "./context/auth-context";
 
 
-const localStorageKey = "__auth_provider_token__";
+const tokenKey = "__auth_provider_token__";
+const userNameKey = "__username__";
 
 const serviceUrl = process.env.REACT_APP_API_URL
 
 
-export const getUserToke = () => {
-    return window.localStorage.getItem(localStorageKey)
+export const getUser = () => {
+    return {token: window.localStorage.getItem(tokenKey), name: window.localStorage.getItem(userNameKey)}
 }
 
 export const setUserTokenToLocalStorage = ({user}: { user: User }) => {
-    window.localStorage.setItem(localStorageKey, user.token || "")
+    window.localStorage.setItem(tokenKey, user.token || "")
+    window.localStorage.setItem(userNameKey, user.name || "")
     return user
 }
 
@@ -39,7 +40,7 @@ export const initUser = async (endpoint: string, account: { username: string, pa
     return Promise.reject(result)
 }
 
-export const logout = async () => window.localStorage.removeItem(localStorageKey)
+export const logout = async () => window.localStorage.removeItem(tokenKey)
 
 interface QueryParam extends RequestInit {
     data?: Object
@@ -65,7 +66,7 @@ export const query = (endPoint: string, {data, token, ...customConfig}: QueryPar
             if (response.status === 401) {
                 await logout();
                 window.location.reload();
-                return Promise.reject({message: "请重新登录"})
+                return Promise.reject({message: "Invalid username or password"})
             }
             const data = await response.json();
             if (response.ok) {
