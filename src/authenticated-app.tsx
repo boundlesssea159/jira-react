@@ -4,7 +4,7 @@ import {useAuth} from "./context/auth-context";
 import styled from "@emotion/styled";
 import {Row} from "./component/lib";
 import logo from "assets/logo.svg";
-import {Dropdown, Image} from "antd";
+import {Button, Dropdown, Image} from "antd";
 
 export const AuthenticatedApp = () => {
     const {logout, user} = useAuth();
@@ -15,8 +15,13 @@ export const AuthenticatedApp = () => {
                 <h2>项目</h2>
                 <h2>成员</h2>
             </HeaderLeft>
-            <Dropdown menu={{items: [{key: "1", label: (<a color={"blue"} onClick={logout}>登出</a>)}]}}>
-                <a href={""} onClick={e => e.preventDefault()}>Hi, {user?.name}</a>
+            <Dropdown menu={{
+                items: [{
+                    key: "1",
+                    label: (<Button type={"link"} color={"blue"} onClick={logout}>登出</Button>)
+                }]
+            }}>
+                <Button type={"link"} onClick={e => e.preventDefault()}>Hi, {user?.name}</Button>
             </Dropdown>
         </PageHeader>
         <ProjectListScreen/>

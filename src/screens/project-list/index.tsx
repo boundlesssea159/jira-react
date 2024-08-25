@@ -1,10 +1,11 @@
 import {SearchPanel} from "./search-panel";
-import {List} from "./list";
+import {List, Project} from "./list";
 import {useEffect, useState} from "react";
 import React from "react";
 import qs from "qs"
 import {cleanObject, useDebounce} from "../../utils";
 import styled from "@emotion/styled";
+import {useAsync} from "../../utils/use-async";
 
 const serviceUrl = process.env.REACT_APP_API_URL
 export const ProjectListScreen = () => {
@@ -13,18 +14,17 @@ export const ProjectListScreen = () => {
         name: '',
         personId: ''
     })
-    const [list, setList] = useState([])
-
     const debouncedParam = useDebounce(param, 2000)
 
+    const {run, error, isLoading, data} = useAsync<Project[]>()
 
     useEffect(() => {
-        fetch(`${serviceUrl}/projects?${qs.stringify(cleanObject(debouncedParam))}`).then(async response => {
-            if (response.ok) {
-                setList(await response.json())
-            }
-        })
-
+        run(fetch(`${serviceUrl}/projects?${qs.stringify(cleanObject(debouncedParam))}`)
+            .then(async response => {
+                if (response.ok) {
+                    return await response.json()
+                }
+            }))
     }, [debouncedParam])
 
     useEffect(() => {
@@ -38,7 +38,8 @@ export const ProjectListScreen = () => {
     return <Container>
         <h1>项目列表</h1>
         <SearchPanel users={users} param={param} setParam={setParam}/>
-        <List users={users} list={list}/>
+        {error ? <div>{error}</div> : null}
+        <List users={users} dataSource={data} loading={isLoading}/>
     </Container>
 }
 

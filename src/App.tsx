@@ -13,6 +13,7 @@ function App() {
         </AuthContextProvider>
     );
 }
+
 const InnerApp = () => {
     const {user} = useAuth()
     return user && user.token ? <AuthenticatedApp/> : <UnauthenticatedApp/>

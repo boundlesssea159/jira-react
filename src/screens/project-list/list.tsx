@@ -1,5 +1,5 @@
 import React from "react";
-import {Table} from "antd";
+import {Table, TableProps} from "antd";
 import dayjs from 'dayjs';
 
 export interface User {
@@ -8,7 +8,7 @@ export interface User {
     token: string,
 }
 
-interface Project {
+export interface Project {
     "id": number,
     "name": string,
     "personId": string,
@@ -16,8 +16,12 @@ interface Project {
     "created": string,
 }
 
-export const List = ({list, users}: { list: Project[], users: User[] }) => {
-    return <Table dataSource={list} columns={[
+interface ListProps extends TableProps<Project> {
+    users: User[];
+}
+
+export const List = (listProps: ListProps) => {
+    return <Table {...listProps} columns={[
         {
             title: '名称',
             dataIndex: 'name',
@@ -31,7 +35,7 @@ export const List = ({list, users}: { list: Project[], users: User[] }) => {
             title: '负责人',
             dataIndex: 'personId',
             render: (personId: string) => {
-                return <span>{users.find(user => user.id === personId)?.name || "未知"}</span>
+                return <span>{listProps.users.find(user => user.id === personId)?.name || "未知"}</span>
             }
         },
         {
