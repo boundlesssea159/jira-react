@@ -18,9 +18,9 @@ interface AuthForm {
 
 export const AuthContextProvider = ({children}: { children: ReactNode }) => {
     const [user, setUser] = useState<User | null>({id: "", name: getUser().name ?? "", token: getUser().token ?? ""})
-    const login = (form: AuthForm) => auth.login(form).then(user => setUser(user))
-    const register = (form: AuthForm) => auth.register(form).then(user => setUser(user))
-    const logout = () => auth.logout().then(() => setUser(null))
+    const login = (form: AuthForm) => auth.login(form).then(user => setUser(user)).catch((error) => Promise.reject(error))
+    const register = (form: AuthForm) => auth.register(form).then(user => setUser(user)).catch((error) => Promise.reject(error))
+    const logout = () => auth.logout().then(() => setUser(null)).catch((error) => Promise.reject(error))
 
     return <AuthContext.Provider value={{user, login, register, logout}}>{children}</AuthContext.Provider>
 }

@@ -2,7 +2,6 @@ import {User} from "./screens/project-list/list";
 import qs from "qs";
 import {useAuth} from "./context/auth-context";
 
-
 const tokenKey = "__auth_provider_token__";
 const userNameKey = "__username__";
 
@@ -34,10 +33,11 @@ export const initUser = async (endpoint: string, account: { username: string, pa
             password: account.password
         }
     });
-    if (result.user.token !== "") {
-        return setUserTokenToLocalStorage(result)
+
+    if (!result.user?.token) {
+        throw new Error(result.message)
     }
-    return Promise.reject(result)
+    return setUserTokenToLocalStorage(result)
 }
 
 export const logout = async () => window.localStorage.removeItem(tokenKey)
@@ -65,8 +65,7 @@ export const query = (endPoint: string, {data, token, ...customConfig}: QueryPar
         .then(async response => {
             if (response.status === 401) {
                 await logout();
-                window.location.reload();
-                return Promise.reject({message: "Invalid username or password"})
+                return Promise.reject(new Error("Invalid username or password"))
             }
             const data = await response.json();
             if (response.ok) {

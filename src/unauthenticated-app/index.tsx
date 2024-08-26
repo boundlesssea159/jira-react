@@ -1,49 +1,28 @@
 import React, {useState} from "react";
-import {useAuth} from "../context/auth-context";
-import {Button, Card, Divider, Form, Input, Typography} from "antd";
+import {Button, Card} from "antd";
 import styled from "@emotion/styled";
 import head from 'assets/head.png';
 import left from 'assets/left.jpg';
 import right from 'assets/right.jpg';
+import {Login} from "./login";
+import {Register} from "./register";
 
 export const UnauthenticatedApp = () => {
     const [isRegister, setIsRegister] = useState(false)
-    const {login, register} = useAuth()
-    const [error, setError] = useState<Error>();
-    const handleSubmit = async (values: { username: string, password: string }) => {
-        isRegister ? await register(values).catch((error) => setError(error))
-            : await login(values).catch((error) => setError(error))
-    }
-
     return (
         <Container>
             <Head src={head}/>
             <Background/>
             <ShadowCard>
-                <Title>{isRegister ? "请注册" : "请登录"}</Title>
-                {error ? <Typography.Text type={"danger"}>{error.message.toString()}</Typography.Text> : null}
-                <Form onFinish={handleSubmit}>
-                    <Form.Item name={"username"} rules={[{required: true, message: "请输入用户名"}]}>
-                        <Input placeholder={"用户名"} id={"username"} type={"text"}/>
-                    </Form.Item>
-                    <Form.Item name={"password"} rules={[{required: true, message: "请输入密码"}]}>
-                        <Input placeholder={"密码"} id={"password"} type={"password"}/>
-                    </Form.Item>
-                    <Form.Item>
-                        <LongButton htmlType={"submit"} type={"primary"}>{isRegister ? "注册" : "登录"}</LongButton>
-                    </Form.Item>
-                </Form>
-                <Divider/>
-                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                <a type={"button"}
-                   onClick={() => setIsRegister(!isRegister)}>{`${isRegister ? "已经有账号了？直接登录" : "没有账号？注册新账号"}`}</a>
+                {!isRegister ? <Login setIsRegister={setIsRegister}/> :
+                    <Register setIsRegister={setIsRegister}/>}
             </ShadowCard>
         </Container>
     )
 }
 
 const Head = styled.img`
-  width: 5%;
+  width: 10%;
 `
 
 const Background = styled.div`
@@ -74,11 +53,11 @@ const ShadowCard = styled(Card)`
   text-align: center;
 `
 
-const LongButton = styled(Button)`
+export const LongButton = styled(Button)`
   width: 100%;
 `
 
-const Title = styled.h2`
+export const Title = styled.h2`
   margin-bottom: 2.4rem;
   color: rgb(94, 108, 132);
 `
