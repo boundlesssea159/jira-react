@@ -6,11 +6,14 @@ export const useAsync = <D>() => {
     const [data, setData] = useState<D>()
     const run = (promise: Promise<D>) => {
         setIsLoading(true);
-        promise.then((data) => {
-            setData(data)
-            return data
-        })
-            .catch((error) => setError(error))
+        promise
+            .then((data) => {
+                setData(data)
+                return data
+            })
+            .catch((error) => {
+                setError(error.message)
+            })
             .finally(() => setIsLoading(false))
     }
 
