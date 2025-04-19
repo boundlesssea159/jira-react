@@ -6,9 +6,11 @@ import left from 'assets/left.jpg';
 import right from 'assets/right.jpg';
 import {Login} from "./login";
 import {Register} from "./register";
+import {useDocumentTitle} from "../utils/use-documentTitle";
 
 export const UnauthenticatedApp = () => {
     const [isRegister, setIsRegister] = useState(false)
+    useDocumentTitle("登录注册页面")
     return (
         <Container>
             <Head src={head}/>

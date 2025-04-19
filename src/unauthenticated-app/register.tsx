@@ -21,7 +21,7 @@ export const Register = ({setIsRegister}: {
 
     return <Form onFinish={handleSubmit}>
         <Title>{"请注册"}</Title>
-        {error ? <Typography.Text type={"danger"}>{error}</Typography.Text> : null}
+        {error !== null ? <Typography.Text type={"danger"}>{error.message}</Typography.Text> : null}
         <Form.Item name={"username"} rules={[{required: true, message: "请输入用户名"}]}>
             <Input placeholder={"用户名"} id={"username"} type={"text"}/>
         </Form.Item>

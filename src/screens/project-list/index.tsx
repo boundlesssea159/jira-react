@@ -38,8 +38,8 @@ export const ProjectListScreen = () => {
     return <Container>
         <h1>项目列表</h1>
         <SearchPanel users={users} param={param} setParam={setParam}/>
-        {error ? <div>{error}</div> : null}
-        <List users={users} dataSource={data} loading={isLoading}/>
+        {error !== null ? <div>{error.message}</div> : null}
+        <List users={users} dataSource={data || undefined} loading={isLoading}/>
     </Container>
 }
 

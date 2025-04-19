@@ -2,8 +2,8 @@ import {useState} from "react";
 
 export const useAsync = <D>() => {
     const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState("");
-    const [data, setData] = useState<D>()
+    const [error, setError] = useState<Error | null>(null);
+    const [data, setData] = useState<D | null>(null)
     const run = (promise: Promise<D>) => {
         setIsLoading(true);
         promise
@@ -12,10 +12,10 @@ export const useAsync = <D>() => {
                 return data
             })
             .catch((error) => {
-                setError(error.message)
+                setError(error)
             })
             .finally(() => setIsLoading(false))
     }
 
-    return {run, isLoading, error, data}
+    return {run, isLoading, error, data, setData}
 }

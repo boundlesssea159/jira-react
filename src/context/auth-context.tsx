@@ -3,6 +3,7 @@ import {Spin} from "antd";
 import {User} from "../screens/project-list/list";
 import * as auth from "auth-provider"
 import {getUser} from "auth-provider";
+import {useAsync} from "../utils/use-async";
 
 export const AuthContext = React.createContext<{
     user: User | null,
@@ -17,25 +18,29 @@ interface AuthForm {
 }
 
 export const AuthContextProvider = ({children}: { children: ReactNode }) => {
-    const [user, setUser] = useState<User | null>(null)
+    const {run, isLoading, error, data: user, setData: setUser} = useAsync<User>()
 
     useEffect(() => {
-        // show the loading page firstly, then show the main page after loading user data finish
-        setTimeout(() => {
-            setUser({id: "", name: getUser().name ?? "", token: getUser().token ?? ""})
-        }, 0)
+        run((async () => {
+            return {id: "", name: getUser().name ?? "", token: getUser().token ?? ""}
+        })())
     }, [])
+
+    // during the time of fetching user data , show the waiting page
+    if (isLoading) {
+        return <div style={{display: "flex", justifyContent: "center", alignItems: "center", height: "100vh"}}>
+            <Spin>加载中...</Spin>
+        </div>
+    }
+
+    // when throw Error, will show the default Error page by ReactErrorBoundary
+    if (error !== null) {
+        throw new Error(error.message)
+    }
 
     const login = (form: AuthForm) => auth.login(form).then(user => setUser(user)).catch((error) => Promise.reject(error))
     const register = (form: AuthForm) => auth.register(form).then(user => setUser(user)).catch((error) => Promise.reject(error))
     const logout = () => auth.logout().then(() => setUser(null)).catch((error) => Promise.reject(error))
-
-    // show the default loading page when fetch user data slowly
-    if (user === null) {
-        return <div style={{display: "flex", justifyContent: "center", alignItems: "center", height: "100vh"}}>
-            <Spin/>
-        </div>
-    }
 
     return <AuthContext.Provider value={{user, login, register, logout}}>{children}</AuthContext.Provider>
 }

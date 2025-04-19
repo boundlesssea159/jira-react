@@ -5,9 +5,11 @@ import styled from "@emotion/styled";
 import {Row} from "./component/lib";
 import logo from "assets/logo.svg";
 import {Button, Dropdown, Image} from "antd";
+import {useDocumentTitle} from "./utils/use-documentTitle";
 
 export const AuthenticatedApp = () => {
     const {logout, user} = useAuth();
+    useDocumentTitle("列表页")
     return <div>
         <PageHeader setSpaceBetween={true}>
             <HeaderLeft marginRight={true}>
