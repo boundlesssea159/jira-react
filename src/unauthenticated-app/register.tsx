@@ -11,7 +11,7 @@ export const Register = ({setIsRegister}: {
 
     const {run, isLoading, error} = useAsync();
     const handleSubmit = async (values: { username: string, password: string, repeatPassword: string }) => {
-        run((async () => {
+        await run((async () => {
             if (values.password !== values.repeatPassword) {
                 throw new Error("两次密码不一致")
             }

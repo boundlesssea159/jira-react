@@ -12,7 +12,7 @@ export const Login = ({setIsRegister}: {
     const {run, isLoading, error} = useAsync()
 
     return <Form onFinish={async (values: { username: string, password: string }) => {
-        run(login(values))
+        await run(login(values))
     }}>
         <Title>{"请登录"}</Title>
         {error ? <Typography.Text type={"danger"}>{error}</Typography.Text> : null}

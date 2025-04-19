@@ -3,6 +3,7 @@ import './App.css';
 import {AuthContextProvider, useAuth} from "./context/auth-context";
 import {UnauthenticatedApp} from "./unauthenticated-app";
 import {AuthenticatedApp} from "./authenticated-app";
+import {ErrorBoundary} from "react-error-boundary";
 
 function App() {
     return (
@@ -16,7 +17,27 @@ function App() {
 
 const InnerApp = () => {
     const {user} = useAuth()
-    return user && user.token ? <AuthenticatedApp/> : <UnauthenticatedApp/>
+    return <>
+        <ErrorBoundary fallbackRender={fallbackRender} onReset={(details) => {
+            // Reset the state of your app so the error doesn't happen again
+        }}>
+            {user && user.token ? <AuthenticatedApp/> : <UnauthenticatedApp/>}
+        </ErrorBoundary>
+    </>
+}
+
+// show the default page when error occurs while rendering
+function fallbackRender({error, resetErrorBoundary}: any) {
+    // Call resetErrorBoundary() to reset the error boundary and retry the render.
+    return (
+        <div role="alert">
+            <p>Something went wrong:</p>
+            <pre style={{color: "red"}}>{error.message}</pre>
+        </div>
+    );
 }
 
 export default App;
+
+
+// todo : 定义全局的error boundary，用于在渲染过程中报错时展示错误页面
