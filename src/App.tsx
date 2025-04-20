@@ -4,14 +4,17 @@ import {AuthContextProvider, useAuth} from "./context/auth-context";
 import {UnauthenticatedApp} from "./unauthenticated-app";
 import {AuthenticatedApp} from "./authenticated-app";
 import {ErrorBoundary} from "react-error-boundary";
+import {BrowserRouter} from "react-router-dom";
 
 function App() {
     return (
-        <AuthContextProvider>
-            <div className="App">
-                <InnerApp/>
-            </div>
-        </AuthContextProvider>
+        <BrowserRouter>
+            <AuthContextProvider>
+                <div className="App">
+                    <InnerApp/>
+                </div>
+            </AuthContextProvider>
+        </BrowserRouter>
     );
 }
 
@@ -39,4 +42,5 @@ function fallbackRender({error, resetErrorBoundary}: any) {
 
 export default App;
 
-// todo useDocumentTitle,展示对应页面的title
+// todo should router be defined in the entry file?
+// todo should add the path to the url when jump to anther page?

@@ -5,13 +5,24 @@ import styled from "@emotion/styled";
 import {Row} from "./component/lib";
 import logo from "assets/logo.svg";
 import {Button, Dropdown, Image} from "antd";
-import {useDocumentTitle} from "./utils/use-documentTitle";
+import {Navigate, Route, Routes} from "react-router";
+import {ProjectScreen} from "./screens/project";
 
 export const AuthenticatedApp = () => {
-    const {logout, user} = useAuth();
-    useDocumentTitle("列表页",false)
     return <div>
-        <PageHeader setSpaceBetween={true}>
+        <PageHeader/>
+        <Routes>
+            <Route path="/" element={<Navigate to="/projects" replace/>}/>
+            <Route path={"/projects"} element={<ProjectListScreen/>}/>
+            <Route path={"/projects/:projectId/*"} element={<ProjectScreen/>}/>
+        </Routes>
+    </div>
+}
+
+const PageHeader = () => {
+    const {logout, user} = useAuth();
+    return (
+        <Header setSpaceBetween={true}>
             <HeaderLeft marginRight={true}>
                 <Image src={logo} width={"3rem"} height={"3rem"}/>
                 <h2>项目</h2>
@@ -25,12 +36,11 @@ export const AuthenticatedApp = () => {
             }}>
                 <Button type={"link"} onClick={e => e.preventDefault()}>Hi, {user?.name}</Button>
             </Dropdown>
-        </PageHeader>
-        <ProjectListScreen/>
-    </div>
+        </Header>
+    )
 }
 
-const PageHeader = styled(Row)`
+const Header = styled(Row)`
   padding: 2rem;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
   z-index: 1;

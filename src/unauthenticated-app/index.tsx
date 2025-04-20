@@ -7,11 +7,12 @@ import right from 'assets/right.jpg';
 import {Login} from "./login";
 import {Register} from "./register";
 import {useDocumentTitle} from "../utils/use-documentTitle";
+import {Navigate, Route, Routes} from "react-router";
 
 export const UnauthenticatedApp = () => {
     const [isRegister, setIsRegister] = useState(false)
     useDocumentTitle("登录注册页面", false)
-    return (
+    return <>
         <Container>
             <Head src={head}/>
             <Background/>
@@ -20,7 +21,10 @@ export const UnauthenticatedApp = () => {
                     <Register setIsRegister={setIsRegister}/>}
             </ShadowCard>
         </Container>
-    )
+        <Routes>
+            <Route path="*" element={<Navigate to="/" replace/>}/>
+        </Routes>
+    </>
 }
 
 const Head = styled.img`

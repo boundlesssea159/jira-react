@@ -6,6 +6,7 @@ import qs from "qs"
 import {cleanObject, useDebounce} from "../../utils";
 import styled from "@emotion/styled";
 import {useAsync} from "../../utils/use-async";
+import {useDocumentTitle} from "../../utils/use-documentTitle";
 
 const serviceUrl = process.env.REACT_APP_API_URL
 export const ProjectListScreen = () => {
@@ -15,6 +16,7 @@ export const ProjectListScreen = () => {
         personId: ''
     })
     const debouncedParam = useDebounce(param, 2000)
+    useDocumentTitle("列表页", false)
 
     const {run, error, isLoading, data} = useAsync<Project[]>()
 
