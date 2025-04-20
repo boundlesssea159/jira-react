@@ -10,7 +10,7 @@ import {useDocumentTitle} from "../utils/use-documentTitle";
 
 export const UnauthenticatedApp = () => {
     const [isRegister, setIsRegister] = useState(false)
-    useDocumentTitle("登录注册页面")
+    useDocumentTitle("登录注册页面", false)
     return (
         <Container>
             <Head src={head}/>

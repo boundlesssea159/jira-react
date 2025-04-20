@@ -9,7 +9,7 @@ import {useDocumentTitle} from "./utils/use-documentTitle";
 
 export const AuthenticatedApp = () => {
     const {logout, user} = useAuth();
-    useDocumentTitle("列表页")
+    useDocumentTitle("列表页",false)
     return <div>
         <PageHeader setSpaceBetween={true}>
             <HeaderLeft marginRight={true}>
