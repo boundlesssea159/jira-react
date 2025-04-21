@@ -41,6 +41,3 @@ function fallbackRender({error, resetErrorBoundary}: any) {
 }
 
 export default App;
-
-// todo should router be defined in the entry file?
-// todo should add the path to the url when jump to anther page?
