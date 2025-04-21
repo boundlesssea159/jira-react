@@ -3,10 +3,9 @@ import {LongButton, Title} from "./index";
 import React from "react";
 import {useAuth} from "../context/auth-context";
 import {useAsync} from "../utils/use-async";
+import {Link} from "react-router-dom";
 
-export const Register = ({setIsRegister}: {
-    setIsRegister: (isRegister: boolean) => void
-}) => {
+export const Register = () => {
     const {register} = useAuth()
 
     const {run, isLoading, error} = useAsync();
@@ -35,8 +34,6 @@ export const Register = ({setIsRegister}: {
             <LongButton htmlType={"submit"} type={"primary"} loading={isLoading}>{"注册"}</LongButton>
         </Form.Item>
         <Divider/>
-        {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-        <a type={"button"}
-           onClick={() => setIsRegister(false)}>{"已经有账号了？直接登录"}</a>
+        <Link to={"/login"}>{"已经有账号了？直接登录"}</Link>
     </Form>
 }

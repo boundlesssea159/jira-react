@@ -41,3 +41,7 @@ function fallbackRender({error, resetErrorBoundary}: any) {
 }
 
 export default App;
+
+
+// todo how to define the backend api for collecting the project
+// todo use <Rate> component to show the collecting button

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import {Button, Card} from "antd";
 import styled from "@emotion/styled";
 import head from 'assets/head.png';
@@ -10,20 +10,17 @@ import {useDocumentTitle} from "../utils/use-documentTitle";
 import {Navigate, Route, Routes} from "react-router";
 
 export const UnauthenticatedApp = () => {
-    const [isRegister, setIsRegister] = useState(false)
     useDocumentTitle("登录注册页面", false)
     return <>
         <Container>
             <Head src={head}/>
             <Background/>
-            <ShadowCard>
-                {!isRegister ? <Login setIsRegister={setIsRegister}/> :
-                    <Register setIsRegister={setIsRegister}/>}
-            </ShadowCard>
+            <Routes>
+                <Route path="/login" element={<ShadowCard><Login/></ShadowCard>}/>
+                <Route path="/register" element={<ShadowCard><Register/></ShadowCard>}/>
+                <Route path={'*'} element={<Navigate to="/login"/>}/>
+            </Routes>
         </Container>
-        <Routes>
-            <Route path="*" element={<Navigate to="/"/>}/>
-        </Routes>
     </>
 }
 
