@@ -24,7 +24,9 @@ const PageHeader = () => {
     return (
         <Header setSpaceBetween={true}>
             <HeaderLeft marginRight={true}>
-                <Image src={logo} width={"3rem"} height={"3rem"}/>
+                <Button type={"link"} onClick={() => window.location.pathname = '/'}>
+                    <Image src={logo} width={"3rem"} height={"3rem"}/>
+                </Button>
                 <h2>项目</h2>
                 <h2>成员</h2>
             </HeaderLeft>
