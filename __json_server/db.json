@@ -19,28 +19,32 @@
       "name": "骑手管理",
       "personId": 1,
       "organization": "外卖组",
-      "created": "2023-03-01T08:00:00.000Z"
+      "created": "2023-03-01T08:00:00.000Z",
+      "pin": true
     },
     {
       "id": 2,
       "name": "送餐管理",
       "personId": 2,
       "organization": "外卖组",
-      "created": "2023-03-02T08:00:00.000Z"
+      "created": "2023-03-02T08:00:00.000Z",
+      "pin": true
     },
     {
       "id": 3,
       "name": "物料管理系统",
       "personId": 2,
       "organization": "外卖组",
-      "created": "2023-03-02T08:00:00.000Z"
+      "created": "2023-03-02T08:00:00.000Z",
+      "pin": false
     },
     {
       "id": 4,
       "name": "总部管理系统",
       "personId": 3,
       "organization": "外卖组",
-      "created": "2023-03-10T08:00:00.000Z"
+      "created": "2023-03-10T08:00:00.000Z",
+      "pin": true
     }
   ]
 }

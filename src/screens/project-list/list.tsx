@@ -1,7 +1,9 @@
 import React from "react";
-import {Table, TableProps} from "antd";
+import {Rate, Spin, Table, TableProps} from "antd";
 import dayjs from 'dayjs';
 import {Link} from "react-router-dom";
+import {Pin} from "../../component/pin";
+import {useEditProject} from "../../utils/projects";
 
 export interface User {
     id: string,
@@ -15,6 +17,7 @@ export interface Project {
     "personId": string,
     "organization": string,
     "created": string,
+    "pin": boolean
 }
 
 interface ListProps extends TableProps<Project> {
@@ -22,7 +25,14 @@ interface ListProps extends TableProps<Project> {
 }
 
 export const List = (listProps: ListProps) => {
+    const {mutate} = useEditProject()
     return <Table {...listProps} columns={[
+        {
+            title: <Pin checked={true} disabled={true}/>,
+            render: (project) => {
+                return <Pin checked={project.pin} onCheckedChange={(pin) => mutate({id: project.id, pin})}/>
+            }
+        },
         {
             title: '名称',
             sorter: (a: Project, b: Project) => a.name.localeCompare(b.name),
