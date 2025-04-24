@@ -3,7 +3,7 @@ import {Project} from "../screens/project-list/list";
 
 const serviceUrl = process.env.REACT_APP_API_URL
 export const useEditProject = () => {
-    const {run} = useAsync();
+    const {run, error} = useAsync();
     const mutate = (params: Partial<Project>) => {
         console.log("params:" + JSON.stringify(params))
         return run(fetch(`${serviceUrl}/projects/${params.id}`, {
@@ -17,6 +17,7 @@ export const useEditProject = () => {
     }
 
     return {
-        mutate
+        mutate,
+        error
     }
 }
