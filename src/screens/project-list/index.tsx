@@ -8,6 +8,7 @@ import styled from "@emotion/styled";
 import {useAsync} from "../../utils/use-async";
 import {useDocumentTitle} from "../../utils/use-documentTitle";
 import {useUrlQueryParams} from "../../utils/use-url";
+import {useProjects} from "../../utils/projects";
 
 const serviceUrl = process.env.REACT_APP_API_URL
 export const ProjectListScreen = () => {
@@ -15,16 +16,9 @@ export const ProjectListScreen = () => {
     const [param, setParam] = useUrlQueryParams(["name", "personId"])
     const debouncedParam = useDebounce(param, 2000)
     useDocumentTitle("列表页", false)
-
-    const {run, error, isLoading, data} = useAsync<Project[]>()
-
+    const {getProjects, data, isLoading, error} = useProjects()
     useEffect(() => {
-        run(fetch(`${serviceUrl}/projects?${qs.stringify(cleanObject(debouncedParam))}`)
-            .then(async response => {
-                if (response.ok) {
-                    return await response.json()
-                }
-            }))
+        getProjects(debouncedParam)
     }, [debouncedParam])
 
     useEffect(() => {
