@@ -1,11 +1,9 @@
 import {SearchPanel} from "./search-panel";
-import {List, Project} from "./list";
+import {List} from "./list";
 import {useEffect, useState} from "react";
 import React from "react";
-import qs from "qs"
-import {cleanObject, useDebounce} from "../../utils";
+import {useDebounce} from "../../utils";
 import styled from "@emotion/styled";
-import {useAsync} from "../../utils/use-async";
 import {useDocumentTitle} from "../../utils/use-documentTitle";
 import {useUrlQueryParams} from "../../utils/use-url";
 import {useProjects} from "../../utils/projects";
@@ -19,7 +17,7 @@ export const ProjectListScreen = () => {
     const {getProjects, data, isLoading, error} = useProjects()
     useEffect(() => {
         getProjects(debouncedParam)
-    }, [debouncedParam])
+    }, [debouncedParam, getProjects])
 
     useEffect(() => {
         fetch(`${serviceUrl}/users`).then(async response => {
