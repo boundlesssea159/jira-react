@@ -41,7 +41,3 @@ function fallbackRender({error, resetErrorBoundary}: any) {
 }
 
 export default App;
-
-
-// todo use useMemo or useCallback to optimize the performance and avoid the re-rendering
-// todo how to refresh the project when pin

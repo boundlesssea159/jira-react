@@ -1,16 +1,20 @@
-import React from "react";
+import React, {useState} from "react";
 import {ProjectListScreen} from "./screens/project-list";
 import {useAuth} from "./context/auth-context";
 import styled from "@emotion/styled";
 import {Row} from "./component/lib";
 import logo from "assets/logo.svg";
-import {Button, Dropdown, Image} from "antd";
+import {Button, Dropdown, Image, Popover} from "antd";
 import {Navigate, Route, Routes} from "react-router";
 import {ProjectScreen} from "./screens/project";
+import {ProjectModal} from "./screens/project-list/project-modal";
+import {ProjectPopover} from "./component/project-popover";
 
 export const AuthenticatedApp = () => {
+    const [openProjectModal, setOpenProjectModal] = useState<boolean>(false)
     return <div>
         <PageHeader/>
+        <ProjectModal open={openProjectModal} close={() => setOpenProjectModal(false)}/>
         <Routes>
             <Route path={"*"} element={<Navigate to="/projects"/>}/>
             <Route path={"/projects"} element={<ProjectListScreen/>}/>
@@ -27,8 +31,8 @@ const PageHeader = () => {
                 <Button type={"link"} onClick={() => window.location.pathname = '/'}>
                     <Image src={logo} width={"3rem"} height={"3rem"}/>
                 </Button>
-                <h2>项目</h2>
-                <h2>成员</h2>
+                <ProjectPopover/>
+                <span>成员</span>
             </HeaderLeft>
             <Dropdown menu={{
                 items: [{
