@@ -4,7 +4,7 @@ import {useAuth} from "./context/auth-context";
 import styled from "@emotion/styled";
 import {Row} from "./component/lib";
 import logo from "assets/logo.svg";
-import {Button, Dropdown, Image, Popover} from "antd";
+import {Button, Dropdown, Image} from "antd";
 import {Navigate, Route, Routes} from "react-router";
 import {ProjectScreen} from "./screens/project";
 import {ProjectModal} from "./screens/project-list/project-modal";
@@ -17,7 +17,7 @@ export const AuthenticatedApp = () => {
         <ProjectModal open={openProjectModal} close={() => setOpenProjectModal(false)}/>
         <Routes>
             <Route path={"*"} element={<Navigate to="/projects"/>}/>
-            <Route path={"/projects"} element={<ProjectListScreen/>}/>
+            <Route path={"/projects"} element={<ProjectListScreen setOpenProjectModal={setOpenProjectModal}/>}/>
             <Route path={"/projects/:projectId/*"} element={<ProjectScreen/>}/>
         </Routes>
     </div>

@@ -7,9 +7,10 @@ import styled from "@emotion/styled";
 import {useDocumentTitle} from "../../utils/use-documentTitle";
 import {useUrlQueryParams} from "../../utils/use-url";
 import {useProjects} from "../../utils/projects";
+import {Button, Row} from "antd";
 
 const serviceUrl = process.env.REACT_APP_API_URL
-export const ProjectListScreen = () => {
+export const ProjectListScreen = (props: { setOpenProjectModal: (open: boolean) => void }) => {
     const [users, setUsers] = useState([])
     const [param, setParam] = useUrlQueryParams(["name", "personId"])
     const debouncedParam = useDebounce(param, 2000)
@@ -28,7 +29,10 @@ export const ProjectListScreen = () => {
     }, [])
 
     return <Container>
-        <h1>项目列表</h1>
+        <Row align={"middle"} justify={"space-between"}>
+            <h1 style={{marginTop: "0"}}>项目列表</h1>
+            <Button onClick={() => props.setOpenProjectModal(true)}>创建项目</Button>
+        </Row>
         <SearchPanel users={users} param={param} setParam={setParam}/>
         {error !== null ? <div>{error.message}</div> : null}
         <List users={users} dataSource={data || undefined} loading={isLoading}/>
