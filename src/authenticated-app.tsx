@@ -13,7 +13,7 @@ import {ProjectPopover} from "./component/project-popover";
 export const AuthenticatedApp = () => {
     const [openProjectModal, setOpenProjectModal] = useState<boolean>(false)
     return <div>
-        <PageHeader/>
+        <PageHeader setOpenProjectModal={setOpenProjectModal}/>
         <ProjectModal open={openProjectModal} close={() => setOpenProjectModal(false)}/>
         <Routes>
             <Route path={"*"} element={<Navigate to="/projects"/>}/>
@@ -23,7 +23,7 @@ export const AuthenticatedApp = () => {
     </div>
 }
 
-const PageHeader = () => {
+const PageHeader = (props: { setOpenProjectModal: (open: boolean) => void }) => {
     const {logout, user} = useAuth();
     return (
         <Header setSpaceBetween={true}>
@@ -31,7 +31,7 @@ const PageHeader = () => {
                 <Button type={"link"} onClick={() => window.location.pathname = '/'}>
                     <Image src={logo} width={"3rem"} height={"3rem"}/>
                 </Button>
-                <ProjectPopover/>
+                <ProjectPopover setOpenProjectModal={props.setOpenProjectModal}/>
                 <span>成员</span>
             </HeaderLeft>
             <Dropdown menu={{

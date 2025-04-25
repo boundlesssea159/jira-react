@@ -35,7 +35,8 @@ export const ProjectListScreen = (props: { setOpenProjectModal: (open: boolean) 
         </Row>
         <SearchPanel users={users} param={param} setParam={setParam}/>
         {error !== null ? <div>{error.message}</div> : null}
-        <List users={users} dataSource={data || undefined} loading={isLoading}/>
+        <List users={users} dataSource={data || undefined} loading={isLoading}
+              setOpenProjectModal={props.setOpenProjectModal}/>
     </Container>
 }
 

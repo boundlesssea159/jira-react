@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Table, TableProps} from "antd";
+import {Button, Dropdown, Table, TableProps} from "antd";
 import dayjs from 'dayjs';
 import {Link} from "react-router-dom";
 import {Pin} from "../../component/pin";
@@ -22,6 +22,7 @@ export interface Project {
 
 interface ListProps extends TableProps<Project> {
     users: User[];
+    setOpenProjectModal: (open: boolean) => void
 }
 
 export const List = (listProps: ListProps) => {
@@ -78,6 +79,19 @@ export const List = (listProps: ListProps) => {
                         created ? dayjs(created).format('YYYY-MM-DD') : "无"
                     }
                 </>
+            }
+        },
+        {
+            title: '操作',
+            render: () => {
+                return <Dropdown menu={{
+                    items: [{
+                        key: "edit",
+                        label: (<Button type={"link"} onClick={() => listProps.setOpenProjectModal(true)}>编辑</Button>)
+                    }]
+                }}>
+                    <Button type={"link"} onClick={(e) => e.preventDefault()}>...</Button>
+                </Dropdown>
             }
         }
     ]}/>

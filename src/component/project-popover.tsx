@@ -1,9 +1,9 @@
-import {List, Popover, Typography} from "antd";
+import {Button, Divider, List, Popover, Typography} from "antd";
 import {useProjects} from "../utils/projects";
 import {useEffect} from "react";
 
 
-export const ProjectPopover = () => {
+export const ProjectPopover = (props: { setOpenProjectModal: (open: boolean) => void }) => {
     const {getProjects, data} = useProjects()
 
     useEffect(() => {
@@ -17,6 +17,7 @@ export const ProjectPopover = () => {
                 <List.Item.Meta title={item.name}/>
             </List.Item>)
         }
+        <Button type={"link"} onClick={() => props.setOpenProjectModal(true)} style={{padding: 0}}>创建项目</Button>
     </List>
 
     return <Popover trigger={"hover"} content={content} placement={"bottom"}>
