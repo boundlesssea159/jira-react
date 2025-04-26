@@ -5,16 +5,20 @@ import {UnauthenticatedApp} from "./unauthenticated-app";
 import {AuthenticatedApp} from "./authenticated-app";
 import {ErrorBoundary} from "react-error-boundary";
 import {BrowserRouter} from "react-router-dom";
+import {Provider} from "react-redux";
+import {store} from "./store";
 
 function App() {
     return (
-        <BrowserRouter>
-            <AuthContextProvider>
-                <div className="App">
-                    <InnerApp/>
-                </div>
-            </AuthContextProvider>
-        </BrowserRouter>
+        <Provider store={store}>
+            <BrowserRouter>
+                <AuthContextProvider>
+                    <div className="App">
+                        <InnerApp/>
+                    </div>
+                </AuthContextProvider>
+            </BrowserRouter>
+        </Provider>
     );
 }
 

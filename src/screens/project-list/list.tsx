@@ -4,6 +4,8 @@ import dayjs from 'dayjs';
 import {Link} from "react-router-dom";
 import {Pin} from "../../component/pin";
 import {useEditProject} from "../../utils/projects";
+import {useDispatch} from "react-redux";
+import {openCreateProjectModal} from "./project-list.slice";
 
 export interface User {
     id: string,
@@ -22,7 +24,6 @@ export interface Project {
 
 interface ListProps extends TableProps<Project> {
     users: User[];
-    setOpenProjectModal: (open: boolean) => void
 }
 
 export const List = (listProps: ListProps) => {
@@ -37,6 +38,7 @@ export const List = (listProps: ListProps) => {
     }, [listProps.dataSource])
 
     const {mutate, error} = useEditProject()
+    const dispatch = useDispatch()
 
     return <Table {...listProps} columns={[
         {
@@ -87,7 +89,7 @@ export const List = (listProps: ListProps) => {
                 return <Dropdown menu={{
                     items: [{
                         key: "edit",
-                        label: (<Button type={"link"} onClick={() => listProps.setOpenProjectModal(true)}>编辑</Button>)
+                        label: (<Button type={"link"} onClick={() => dispatch(openCreateProjectModal())}>编辑</Button>)
                     }]
                 }}>
                     <Button type={"link"} onClick={(e) => e.preventDefault()}>...</Button>

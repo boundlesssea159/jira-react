@@ -8,13 +8,18 @@ import {useDocumentTitle} from "../../utils/use-documentTitle";
 import {useUrlQueryParams} from "../../utils/use-url";
 import {useProjects} from "../../utils/projects";
 import {Button, Row} from "antd";
+import {useDispatch} from "react-redux";
+import {openCreateProjectModal} from "./project-list.slice";
 
 const serviceUrl = process.env.REACT_APP_API_URL
-export const ProjectListScreen = (props: { setOpenProjectModal: (open: boolean) => void }) => {
+export const ProjectListScreen = () => {
     const [users, setUsers] = useState([])
     const [param, setParam] = useUrlQueryParams(["name", "personId"])
     const debouncedParam = useDebounce(param, 2000)
     useDocumentTitle("列表页", false)
+
+    const dispatch = useDispatch()
+
     const {getProjects, data, isLoading, error} = useProjects()
     useEffect(() => {
         getProjects(debouncedParam)
@@ -31,12 +36,13 @@ export const ProjectListScreen = (props: { setOpenProjectModal: (open: boolean) 
     return <Container>
         <Row align={"middle"} justify={"space-between"}>
             <h1 style={{marginTop: "0"}}>项目列表</h1>
-            <Button onClick={() => props.setOpenProjectModal(true)}>创建项目</Button>
+            <Button onClick={() => {
+                dispatch(openCreateProjectModal())
+            }}>创建项目</Button>
         </Row>
         <SearchPanel users={users} param={param} setParam={setParam}/>
         {error !== null ? <div>{error.message}</div> : null}
-        <List users={users} dataSource={data || undefined} loading={isLoading}
-              setOpenProjectModal={props.setOpenProjectModal}/>
+        <List users={users} dataSource={data || undefined} loading={isLoading}/>
     </Container>
 }
 
