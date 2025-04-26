@@ -28,7 +28,7 @@
       "personId": 2,
       "organization": "外卖组",
       "created": "2023-03-02T08:00:00.000Z",
-      "pin": true
+      "pin": false
     },
     {
       "id": 3,
