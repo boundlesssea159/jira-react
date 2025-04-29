@@ -1,30 +1,37 @@
-import React, {ReactNode, useContext, useEffect, useState} from "react";
+import React, {ReactNode, useEffect} from "react";
 import {Spin} from "antd";
-import {User} from "../screens/project-list/list";
-import * as auth from "auth-provider"
 import {getUser} from "auth-provider";
 import {useAsync} from "../utils/use-async";
+import {useDispatch, useSelector} from "react-redux";
+import {authUserSelector, loginThunk, logoutThunk, registerThunk, setUser} from "../store/auth.slice";
 
-export const AuthContext = React.createContext<{
+export interface User {
+    id: string,
+    name: string,
+    token: string,
+}
+
+React.createContext<{
     user: User | null,
     login: (form: AuthForm) => Promise<void>
     register: (form: AuthForm) => Promise<void>
     logout: () => Promise<void>
 } | undefined>(undefined);
 
-interface AuthForm {
+export interface AuthForm {
     username: string,
     password: string
 }
 
-export const AuthContextProvider = ({children}: { children: ReactNode }) => {
-    const {run, isLoading, error, data: user, setData: setUser} = useAsync<User>()
+export const UserInitializer = ({children}: { children: ReactNode }) => {
+    const {run, isLoading, error, data: user} = useAsync<User>()
+    const dispatch = useDispatch()
 
     useEffect(() => {
         run((async () => {
             return {id: "", name: getUser().name ?? "", token: getUser().token ?? ""}
         })())
-    }, [])
+    }, [run])
 
     // during the time of fetching user data , show the waiting page
     if (isLoading) {
@@ -38,17 +45,22 @@ export const AuthContextProvider = ({children}: { children: ReactNode }) => {
         throw new Error(error.message)
     }
 
-    const login = (form: AuthForm) => auth.login(form).then(user => setUser(user)).catch((error) => Promise.reject(error))
-    const register = (form: AuthForm) => auth.register(form).then(user => setUser(user)).catch((error) => Promise.reject(error))
-    const logout = () => auth.logout().then(() => setUser(null)).catch((error) => Promise.reject(error))
-
-    return <AuthContext.Provider value={{user, login, register, logout}}>{children}</AuthContext.Provider>
+    dispatch(setUser(user))
+    return <>
+        {children}
+    </>
 }
 
 export const useAuth = () => {
-    const context = useContext(AuthContext)
-    if (!context) {
-        throw new Error("AuthContext未被初始化")
+    const dispatch = useDispatch()
+    const login = (form: AuthForm) => loginThunk(form)(dispatch)
+    const register = (form: AuthForm) => registerThunk(form)(dispatch)
+    const logout = () => logoutThunk()(dispatch)
+
+    return {
+        user: useSelector(authUserSelector),
+        login,
+        register,
+        logout,
     }
-    return context
 }

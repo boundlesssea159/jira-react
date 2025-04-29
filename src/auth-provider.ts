@@ -1,6 +1,5 @@
-import {User} from "./screens/project-list/list";
 import qs from "qs";
-import {useAuth} from "./context/auth-context";
+import {useAuth, User} from "./context/auth-context";
 
 const tokenKey = "__auth_provider_token__";
 const userNameKey = "__username__";

@@ -6,12 +6,7 @@ import {Pin} from "../../component/pin";
 import {useEditProject} from "../../utils/projects";
 import {useDispatch} from "react-redux";
 import {openCreateProjectModal} from "./project-list.slice";
-
-export interface User {
-    id: string,
-    name: string,
-    token: string,
-}
+import {User} from "../../context/auth-context";
 
 export interface Project {
     "id": number,
@@ -31,7 +26,6 @@ export const List = (listProps: ListProps) => {
     useEffect(() => {
         const rateMap = new Map<number, boolean>();
         listProps.dataSource?.forEach((project) => {
-            console.log("set map:" + project.id)
             rateMap.set(project.id, project.pin);
         })
         setProjectRates(rateMap);

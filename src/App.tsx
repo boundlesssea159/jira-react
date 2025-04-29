@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import {AuthContextProvider, useAuth} from "./context/auth-context";
+import {UserInitializer, useAuth} from "./context/auth-context";
 import {UnauthenticatedApp} from "./unauthenticated-app";
 import {AuthenticatedApp} from "./authenticated-app";
 import {ErrorBoundary} from "react-error-boundary";
@@ -12,11 +12,11 @@ function App() {
     return (
         <Provider store={store}>
             <BrowserRouter>
-                <AuthContextProvider>
+                <UserInitializer>
                     <div className="App">
                         <InnerApp/>
                     </div>
-                </AuthContextProvider>
+                </UserInitializer>
             </BrowserRouter>
         </Provider>
     );
