@@ -4,13 +4,8 @@ import {useEffect} from "react";
 
 
 export const ProjectPopover = () => {
-    const {getProjects, data} = useProjects()
+    const {data} = useProjects({} as { name: string, personId: string })
     const {open} = useProjectModal()
-
-    useEffect(() => {
-        getProjects({} as { name: string, personId: string })
-    }, [getProjects])
-
     const content = <List style={{minWidth: '20rem'}}>
         <Typography.Text type={"secondary"}>收藏项目</Typography.Text>
         {

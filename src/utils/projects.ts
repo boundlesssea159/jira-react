@@ -4,6 +4,7 @@ import qs from "qs";
 import {cleanObject} from "./index";
 import {useCallback} from "react";
 import {useUrlQueryParams} from "./use-url";
+import {useQuery} from "react-query";
 
 const serviceUrl = process.env.REACT_APP_API_URL
 export const useEditProject = () => {
@@ -25,18 +26,17 @@ export const useEditProject = () => {
 }
 
 
-export const useProjects = () => {
-    const {run, error, isLoading, data} = useAsync<Project[] | undefined>();
-    const getProjects = useCallback((params: { name: string, personId: string }) => {
-        return run(fetch(`${serviceUrl}/projects?${qs.stringify(cleanObject(params))}`)
+export const useProjects = (params: { name: string, personId: string }) => {
+    const {data, isLoading, error} = useQuery<Project[], Error>(["projects", params], () => {
+        return fetch(`${serviceUrl}/projects?${qs.stringify(cleanObject(params))}`)
             .then(async response => {
                 if (response.status === 200) {
                     return await response.json() as Project[]
                 }
-            }))
-    }, [run])
+                return []
+            })
+    })
     return {
-        getProjects,
         isLoading,
         error,
         data

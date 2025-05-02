@@ -1,8 +1,7 @@
-import React, {ReactNode, useContext, useEffect, useState} from "react";
+import React, {ReactNode, useContext, useEffect} from "react";
 import {Spin} from "antd";
-import {User} from "../screens/project-list/list";
 import * as auth from "auth-provider"
-import {getUser} from "auth-provider";
+import {getUser, User} from "auth-provider";
 import {useAsync} from "../utils/use-async";
 
 export const AuthContext = React.createContext<{

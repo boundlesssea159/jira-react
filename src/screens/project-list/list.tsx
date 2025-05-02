@@ -4,12 +4,7 @@ import dayjs from 'dayjs';
 import {Link} from "react-router-dom";
 import {Pin} from "../../component/pin";
 import {useEditProject, useProjectModal} from "../../utils/projects";
-
-export interface User {
-    id: string,
-    name: string,
-    token: string,
-}
+import {User} from "../../auth-provider";
 
 export interface Project {
     "id": number,

@@ -23,6 +23,7 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-error-boundary": "^5.0.0",
+    "react-query": "^3.39.3",
     "react-router": "v6",
     "react-router-dom": "v6",
     "react-scripts": "5.0.1",

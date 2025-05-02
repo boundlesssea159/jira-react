@@ -5,15 +5,21 @@ import {UnauthenticatedApp} from "./unauthenticated-app";
 import {AuthenticatedApp} from "./authenticated-app";
 import {ErrorBoundary} from "react-error-boundary";
 import {BrowserRouter} from "react-router-dom";
+import {QueryClient, QueryClientProvider} from "react-query";
+import {query} from "./auth-provider";
+
+const queryClient = new QueryClient()
 
 function App() {
     return (
         <BrowserRouter>
-            <AuthContextProvider>
-                <div className="App">
-                    <InnerApp/>
-                </div>
-            </AuthContextProvider>
+            <QueryClientProvider client={queryClient}>
+                <AuthContextProvider>
+                    <div className="App">
+                        <InnerApp/>
+                    </div>
+                </AuthContextProvider>
+            </QueryClientProvider>
         </BrowserRouter>
     );
 }

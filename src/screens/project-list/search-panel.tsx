@@ -1,6 +1,6 @@
 import React from "react";
-import {User} from "./list";
 import {Form, Input, Select} from "antd";
+import {User} from "../../auth-provider";
 
 
 interface SearchPanelParam {

@@ -8,6 +8,7 @@ import {useDocumentTitle} from "../../utils/use-documentTitle";
 import {useUrlQueryParams} from "../../utils/use-url";
 import {useProjectModal, useProjects} from "../../utils/projects";
 import {Button, Row} from "antd";
+import {useQuery} from "react-query";
 
 const serviceUrl = process.env.REACT_APP_API_URL
 export const ProjectListScreen = () => {
@@ -16,11 +17,7 @@ export const ProjectListScreen = () => {
     const debouncedParam = useDebounce(param, 2000)
     useDocumentTitle("列表页", false)
     const {open} = useProjectModal()
-    const {getProjects, data, isLoading, error} = useProjects()
-    useEffect(() => {
-        getProjects(debouncedParam)
-    }, [debouncedParam, getProjects])
-
+    const {data, isLoading, error} = useProjects(debouncedParam)
     useEffect(() => {
         fetch(`${serviceUrl}/users`).then(async response => {
             if (response.ok) {
@@ -35,7 +32,7 @@ export const ProjectListScreen = () => {
             <Button onClick={open}>创建项目</Button>
         </Row>
         <SearchPanel users={users} param={param} setParam={setParam}/>
-        {error !== null ? <div>{error.message}</div> : null}
+        {error !== null ? <div>{error?.message}</div> : null}
         <List users={users} dataSource={data || undefined} loading={isLoading}/>
     </Container>
 }

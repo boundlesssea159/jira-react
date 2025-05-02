@@ -1,4 +1,3 @@
-import {User} from "./screens/project-list/list";
 import qs from "qs";
 import {useAuth} from "./context/auth-context";
 
@@ -7,9 +6,14 @@ const userNameKey = "__username__";
 
 const serviceUrl = process.env.REACT_APP_API_URL
 
+export interface User {
+    id: string,
+    name: string,
+    token: string,
+}
 
 export const getUser = () => {
-    return {token: window.localStorage.getItem(tokenKey), name: window.localStorage.getItem(userNameKey)}
+    return {id: "", token: window.localStorage.getItem(tokenKey), name: window.localStorage.getItem(userNameKey)} as User
 }
 
 export const setUserTokenToLocalStorage = ({user}: { user: User }) => {
