@@ -8,13 +8,12 @@ import {useDocumentTitle} from "../../utils/use-documentTitle";
 import {useUrlQueryParams} from "../../utils/use-url";
 import {useProjectModal, useProjects} from "../../utils/projects";
 import {Button, Row} from "antd";
-import {useQuery} from "react-query";
 
 const serviceUrl = process.env.REACT_APP_API_URL
 export const ProjectListScreen = () => {
     const [users, setUsers] = useState([])
     const [param, setParam] = useUrlQueryParams(["name", "personId"])
-    const debouncedParam = useDebounce(param, 2000)
+    const debouncedParam = useDebounce(param, 1000)
     useDocumentTitle("列表页", false)
     const {open} = useProjectModal()
     const {data, isLoading, error} = useProjects(debouncedParam)

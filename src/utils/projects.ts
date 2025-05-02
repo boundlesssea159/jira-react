@@ -1,28 +1,24 @@
-import {useAsync} from "./use-async";
 import {Project} from "../screens/project-list/list";
 import qs from "qs";
 import {cleanObject} from "./index";
-import {useCallback} from "react";
 import {useUrlQueryParams} from "./use-url";
-import {useQuery} from "react-query";
+import {useMutation, useQuery, useQueryClient} from "react-query";
 
 const serviceUrl = process.env.REACT_APP_API_URL
 export const useEditProject = () => {
-    const {run, error} = useAsync();
-    const mutate = useCallback((params: Partial<Project>) => {
-        return run(fetch(`${serviceUrl}/projects/${params.id}`, {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(params),
-            })
-        )
-    }, [run])
-    return {
-        mutate,
-        error
-    }
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn: (params: Partial<Project>) => fetch(`${serviceUrl}/projects/${params.id}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(params),
+        }),
+        onSuccess: () => {
+            queryClient.invalidateQueries('projects')
+        }
+    })
 }
 
 

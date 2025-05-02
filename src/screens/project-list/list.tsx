@@ -31,15 +31,15 @@ export const List = (listProps: ListProps) => {
         setProjectRates(rateMap);
     }, [listProps.dataSource])
 
-    const {mutate, error} = useEditProject()
+    const mutate = useEditProject()
 
     return <Table {...listProps} columns={[
         {
             title: <Pin checked={true} disabled={true}/>,
             render: (project) => {
                 return <Pin checked={projectRates?.get(project.id)} onCheckedChange={async (pin) => {
-                    await mutate({id: project.id, pin})
-                    if (!error) {
+                    await mutate.mutate({id: project.id, pin})
+                    if (!mutate.isError) {
                         const newMap = new Map(projectRates)
                         newMap.set(project.id, pin)
                         setProjectRates(newMap)

@@ -6,11 +6,10 @@ import {AuthenticatedApp} from "./authenticated-app";
 import {ErrorBoundary} from "react-error-boundary";
 import {BrowserRouter} from "react-router-dom";
 import {QueryClient, QueryClientProvider} from "react-query";
-import {query} from "./auth-provider";
 
-const queryClient = new QueryClient()
 
 function App() {
+    const queryClient = new QueryClient()
     return (
         <BrowserRouter>
             <QueryClientProvider client={queryClient}>
