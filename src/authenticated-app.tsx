@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import {ProjectListScreen} from "./screens/project-list";
 import {useAuth} from "./context/auth-context";
 import styled from "@emotion/styled";
@@ -11,19 +11,18 @@ import {ProjectModal} from "./screens/project-list/project-modal";
 import {ProjectPopover} from "./component/project-popover";
 
 export const AuthenticatedApp = () => {
-    const [openProjectModal, setOpenProjectModal] = useState<boolean>(false)
     return <div>
-        <PageHeader setOpenProjectModal={setOpenProjectModal}/>
-        <ProjectModal open={openProjectModal} close={() => setOpenProjectModal(false)}/>
+        <PageHeader/>
+        <ProjectModal/>
         <Routes>
             <Route path={"*"} element={<Navigate to="/projects"/>}/>
-            <Route path={"/projects"} element={<ProjectListScreen setOpenProjectModal={setOpenProjectModal}/>}/>
+            <Route path={"/projects"} element={<ProjectListScreen/>}/>
             <Route path={"/projects/:projectId/*"} element={<ProjectScreen/>}/>
         </Routes>
     </div>
 }
 
-const PageHeader = (props: { setOpenProjectModal: (open: boolean) => void }) => {
+const PageHeader = () => {
     const {logout, user} = useAuth();
     return (
         <Header setSpaceBetween={true}>
@@ -31,7 +30,7 @@ const PageHeader = (props: { setOpenProjectModal: (open: boolean) => void }) => 
                 <Button type={"link"} onClick={() => window.location.pathname = '/'}>
                     <Image src={logo} width={"3rem"} height={"3rem"}/>
                 </Button>
-                <ProjectPopover setOpenProjectModal={props.setOpenProjectModal}/>
+                <ProjectPopover/>
                 <span>成员</span>
             </HeaderLeft>
             <Dropdown menu={{

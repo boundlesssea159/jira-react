@@ -20,3 +20,5 @@ export const useUrlQueryParams = <K extends string>(keys: K[]) => {
         }
     ] as const
 }
+
+

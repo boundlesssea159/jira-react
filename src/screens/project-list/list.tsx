@@ -3,7 +3,7 @@ import {Button, Dropdown, Table, TableProps} from "antd";
 import dayjs from 'dayjs';
 import {Link} from "react-router-dom";
 import {Pin} from "../../component/pin";
-import {useEditProject} from "../../utils/projects";
+import {useEditProject, useProjectModal} from "../../utils/projects";
 
 export interface User {
     id: string,
@@ -22,11 +22,11 @@ export interface Project {
 
 interface ListProps extends TableProps<Project> {
     users: User[];
-    setOpenProjectModal: (open: boolean) => void
 }
 
 export const List = (listProps: ListProps) => {
     const [projectRates, setProjectRates] = useState<Map<number, boolean>>();
+    const {open} = useProjectModal()
     useEffect(() => {
         const rateMap = new Map<number, boolean>();
         listProps.dataSource?.forEach((project) => {
@@ -87,7 +87,7 @@ export const List = (listProps: ListProps) => {
                 return <Dropdown menu={{
                     items: [{
                         key: "edit",
-                        label: (<Button type={"link"} onClick={() => listProps.setOpenProjectModal(true)}>编辑</Button>)
+                        label: (<Button type={"link"} onClick={open}>编辑</Button>)
                     }]
                 }}>
                     <Button type={"link"} onClick={(e) => e.preventDefault()}>...</Button>

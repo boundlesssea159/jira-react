@@ -3,6 +3,7 @@ import {Project} from "../screens/project-list/list";
 import qs from "qs";
 import {cleanObject} from "./index";
 import {useCallback} from "react";
+import {useUrlQueryParams} from "./use-url";
 
 const serviceUrl = process.env.REACT_APP_API_URL
 export const useEditProject = () => {
@@ -16,7 +17,7 @@ export const useEditProject = () => {
                 body: JSON.stringify(params),
             })
         )
-    }, [])
+    }, [run])
     return {
         mutate,
         error
@@ -33,11 +34,24 @@ export const useProjects = () => {
                     return await response.json() as Project[]
                 }
             }))
-    }, [])
+    }, [run])
     return {
         getProjects,
         isLoading,
         error,
         data
     }
+}
+
+export const useProjectModal = () => {
+    const [{projectCreate}, setProjectCreate] = useUrlQueryParams(['projectCreate'])
+    const open = () => setProjectCreate({projectCreate: "true"})
+    const close = () => setProjectCreate({projectCreate: undefined})
+
+    return {
+        projectCreate: projectCreate === 'true',
+        open,
+        close,
+    }
+
 }
