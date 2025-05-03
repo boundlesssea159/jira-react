@@ -22,6 +22,23 @@ export const useEditProject = () => {
 }
 
 
+export const useAddProject = () => {
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn: (params: Partial<Project>) => fetch(`${serviceUrl}/projects`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(params),
+        }),
+        onSuccess: () => {
+            queryClient.invalidateQueries('projects')
+        }
+    })
+}
+
+
 export const useProjects = (params: { name: string, personId: string }) => {
     const {data, isLoading, error} = useQuery<Project[], Error>(["projects", params], () => {
         return fetch(`${serviceUrl}/projects?${qs.stringify(cleanObject(params))}`)
@@ -49,5 +66,4 @@ export const useProjectModal = () => {
         open,
         close,
     }
-
 }

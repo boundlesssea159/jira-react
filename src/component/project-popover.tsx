@@ -1,7 +1,5 @@
 import {Button, List, Popover, Typography} from "antd";
 import {useProjectModal, useProjects} from "../utils/projects";
-import {useEffect} from "react";
-
 
 export const ProjectPopover = () => {
     const {data} = useProjects({} as { name: string, personId: string })

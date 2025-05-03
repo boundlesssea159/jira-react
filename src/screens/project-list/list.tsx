@@ -25,7 +25,6 @@ export const List = (listProps: ListProps) => {
     useEffect(() => {
         const rateMap = new Map<number, boolean>();
         listProps.dataSource?.forEach((project) => {
-            console.log("set map:" + project.id)
             rateMap.set(project.id, project.pin);
         })
         setProjectRates(rateMap);
@@ -80,10 +79,17 @@ export const List = (listProps: ListProps) => {
             title: '操作',
             render: () => {
                 return <Dropdown menu={{
-                    items: [{
-                        key: "edit",
-                        label: (<Button type={"link"} onClick={open}>编辑</Button>)
-                    }]
+                    items: [
+                        {
+                            key: "edit",
+                            label: (<Button type={"link"} onClick={open}>编辑</Button>)
+
+                        },
+                        {
+                            key: "delete",
+                            label: (<Button type={"link"} onClick={open}>删除</Button>)
+                        },
+                    ]
                 }}>
                     <Button type={"link"} onClick={(e) => e.preventDefault()}>...</Button>
                 </Dropdown>
