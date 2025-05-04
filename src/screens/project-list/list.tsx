@@ -21,7 +21,7 @@ interface ListProps extends TableProps<Project> {
 
 export const List = (listProps: ListProps) => {
     const [projectRates, setProjectRates] = useState<Map<number, boolean>>();
-    const {open} = useProjectModal()
+    const {openCreateProject, openEditProject} = useProjectModal()
     useEffect(() => {
         const rateMap = new Map<number, boolean>();
         listProps.dataSource?.forEach((project) => {
@@ -77,17 +77,17 @@ export const List = (listProps: ListProps) => {
         },
         {
             title: '操作',
-            render: () => {
+            render: (project) => {
                 return <Dropdown menu={{
                     items: [
                         {
                             key: "edit",
-                            label: (<Button type={"link"} onClick={open}>编辑</Button>)
+                            label: (<Button type={"link"} onClick={() => openEditProject(project.id)}>编辑</Button>)
 
                         },
                         {
                             key: "delete",
-                            label: (<Button type={"link"} onClick={open}>删除</Button>)
+                            label: (<Button type={"link"} onClick={openCreateProject}>删除</Button>)
                         },
                     ]
                 }}>

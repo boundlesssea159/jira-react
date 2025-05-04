@@ -14,12 +14,12 @@ export const ProjectListScreen = () => {
     const [param, setParam] = useUrlQueryParams(["name", "personId"])
     const debouncedParam = useDebounce(param, 1000)
     useDocumentTitle("列表页", false)
-    const {open} = useProjectModal()
+    const {openCreateProject} = useProjectModal()
     const {data, isLoading, error} = useProjects(debouncedParam)
     return <Container>
         <Row align={"middle"} justify={"space-between"}>
             <h1 style={{marginTop: "0"}}>项目列表</h1>
-            <Button onClick={open}>创建项目</Button>
+            <Button onClick={openCreateProject}>创建项目</Button>
         </Row>
         <SearchPanel users={users} param={param} setParam={setParam}/>
         {error !== null ? <div>{error?.message}</div> : null}

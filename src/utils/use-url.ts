@@ -15,7 +15,7 @@ export const useUrlQueryParams = <K extends string>(keys: K[]) => {
             }, {} as { [key in K]: string })
         }, [urlParams]),
         (params: Partial<Record<K, string>>) => {
-            const newUrlParams = cleanObject({...Object.fromEntries(urlParams), ...params}) as URLSearchParamsInit
+            const newUrlParams = cleanObject({...params}) as URLSearchParamsInit
             return setUrlParams(newUrlParams)
         }
     ] as const

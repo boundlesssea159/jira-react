@@ -1,28 +1,49 @@
 import {Button, Drawer, Form, Input} from "antd";
-import {useAddProject, useProjectModal} from "../../utils/projects";
+import {useAddProject, useEditProject, useProjectModal} from "../../utils/projects";
 import styled from "@emotion/styled";
 import {useForm} from "antd/es/form/Form";
 import {UserSelect} from "../../component/user-select";
+import {useEffect} from "react";
 
 export const ProjectModal = () => {
-    const {projectCreate, close} = useProjectModal()
+    const {openModal, close, project} = useProjectModal()
     const add = useAddProject()
+    const edit = useEditProject()
+
     const [form] = useForm()
     const onFinish = (values: any) => {
-        add.mutateAsync({
-            name: values['name'],
-            personId: values['personId'],
-            organization: values['organization'],
-            created: new Date().toLocaleDateString()
-        }).then(() => {
-            form.resetFields()
-            close()
-        })
+        if (project?.id) {
+            edit.mutateAsync({
+                id: project.id,
+                name: values['name'],
+                personId: values['personId'],
+                organization: values['organization'],
+            }).then(() => {
+                form.resetFields()
+                close()
+            })
+        } else {
+            add.mutateAsync({
+                name: values['name'],
+                personId: values['personId'],
+                organization: values['organization'],
+                created: new Date().toLocaleDateString()
+            }).then(() => {
+                form.resetFields()
+                close()
+            })
+        }
     }
 
-    return <Drawer onClose={close} open={projectCreate} width={'100%'}>
+    useEffect(() => {
+        if (project?.id) {
+            form.setFieldsValue(project)
+        }
+    }, [project, form])
+
+    return <Drawer onClose={close} open={openModal} width={'100%'}>
         <CreateProjectForm>
-            <h1>创建项目</h1>
+            <h1>{Boolean(project?.id) ? '编辑项目' : '创建项目'}</h1>
             <Form onFinish={onFinish} form={form}>
                 <Form.Item label={'名称'} key={'name'} name={'name'}
                            rules={[{required: true, message: '请输入项目名'}]}>

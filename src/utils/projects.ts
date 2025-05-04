@@ -56,14 +56,48 @@ export const useProjects = (params: { name: string, personId: string }) => {
     }
 }
 
+export const useProject = (id: number) => {
+    const {data, isLoading, error} = useQuery<Project, Error>(
+        ["project", id],
+        () => {
+            return fetch(`${serviceUrl}/projects/${id}`)
+                .then(async response => {
+                    if (response.status === 200) {
+                        return await response.json() as Project
+                    }
+                    return {} as Project
+                })
+        },
+        {
+            initialData: undefined,
+            enabled: Boolean(id)
+        }
+    )
+    return {
+        isLoading,
+        error,
+        data
+    }
+}
+
 export const useProjectModal = () => {
-    const [{projectCreate}, setProjectCreate] = useUrlQueryParams(['projectCreate'])
-    const open = () => setProjectCreate({projectCreate: "true"})
-    const close = () => setProjectCreate({projectCreate: undefined})
+    const [{createProject}, setCreateProject] = useUrlQueryParams(['createProject'])
+
+    const [{editProjectId}, setEditProjectId] = useUrlQueryParams(['editProjectId'])
+
+    const {data: project} = useProject(Number(editProjectId));
+    const openCreateProject = () => setCreateProject({createProject: "true"})
+    const openEditProject = (id: number) => setEditProjectId({editProjectId: String(id)})
+    const close = () => {
+        setCreateProject({createProject: undefined})
+        setEditProjectId({editProjectId: undefined})
+    }
 
     return {
-        projectCreate: projectCreate === 'true',
-        open,
+        openModal: createProject === 'true' || Boolean(editProjectId),
+        openCreateProject,
         close,
+        project,
+        openEditProject,
     }
 }
