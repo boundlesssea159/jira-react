@@ -35,9 +35,10 @@ export const List = (listProps: ListProps) => {
 
     return <Table {...listProps} columns={[
         {
-            title: <Pin checked={true} disabled={true}/>,
+            title: <Pin key={'title'} checked={true} disabled={true}/>,
+            key: 'pin',
             render: (project) => {
-                return <Pin checked={projectRates?.get(project.id)} onCheckedChange={async (pin) => {
+                return <Pin key={'item'} checked={projectRates?.get(project.id)} onCheckedChange={async (pin) => {
                     await editProject.mutate({id: project.id, pin})
                     if (!editProject.isError) {
                         const newMap = new Map(projectRates)
@@ -49,6 +50,7 @@ export const List = (listProps: ListProps) => {
         },
         {
             title: '名称',
+            key: 'name',
             sorter: (a: Project, b: Project) => a.name.localeCompare(b.name),
             render: (project) => {
                 return <Link to={String(project.id)}>{project.name}</Link>
@@ -57,17 +59,20 @@ export const List = (listProps: ListProps) => {
         {
             title: '部门',
             dataIndex: 'organization',
+            key: 'organization',
         },
         {
             title: '负责人',
             dataIndex: 'personId',
+            key: 'personId',
             render: (personId: string) => {
-                return <span>{listProps.users.find(user => user.id === personId)?.name || "未知"}</span>
+                return <span key={personId}>{listProps.users.find(user => user.id === personId)?.name || "未知"}</span>
             }
         },
         {
             title: '创建时间',
             dataIndex: 'created',
+            key: 'created',
             render: (created: string) => {
                 return <>
                     {
@@ -78,22 +83,25 @@ export const List = (listProps: ListProps) => {
         },
         {
             title: '操作',
+            key: '操作',
             render: (project) => {
                 return <Dropdown menu={{
                     items: [
                         {
                             key: "edit",
-                            label: (<Button type={"link"} onClick={() => openEditProject(project.id)}>编辑</Button>)
+                            label: (<Button key={'openEditProject'} type={"link"}
+                                            onClick={() => openEditProject(project.id)}>编辑</Button>)
 
                         },
                         {
                             key: "delete",
                             label: (
-                                <Button type={"link"} onClick={() => deleteProject.mutate(project.id)}>删除</Button>)
+                                <Button key={'deleteProject'} type={"link"}
+                                        onClick={() => deleteProject.mutate(project.id)}>删除</Button>)
                         },
                     ]
                 }}>
-                    <Button type={"link"} onClick={(e) => e.preventDefault()}>...</Button>
+                    <Button key={'default'} type={"link"} onClick={(e) => e.preventDefault()}>...</Button>
                 </Dropdown>
             }
         }

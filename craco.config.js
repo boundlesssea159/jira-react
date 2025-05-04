@@ -12,6 +12,7 @@ module.exports = {
                             '@font-size-base': '14px',    // 修改字体大小
                         },
                         javascriptEnabled: true,
+                        sourcemap: true,
                     },
                 },
             },
