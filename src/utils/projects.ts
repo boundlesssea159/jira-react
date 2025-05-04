@@ -80,6 +80,18 @@ export const useProject = (id: number) => {
     }
 }
 
+export const useDeleteProject = () => {
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn: (id: number) => fetch(`${serviceUrl}/projects/${id}`, {
+            method: 'DELETE',
+        }),
+        onSuccess: () => {
+            queryClient.invalidateQueries('projects')
+        }
+    })
+}
+
 export const useProjectModal = () => {
     const [{createProject}, setCreateProject] = useUrlQueryParams(['createProject'])
 

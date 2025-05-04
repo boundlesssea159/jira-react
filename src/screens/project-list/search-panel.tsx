@@ -15,7 +15,7 @@ interface SearchPanelParam {
 export const SearchPanel = ({users, param, setParam}: SearchPanelParam) => {
     return <Form layout={"inline"} style={{marginBottom: '2rem'}}>
         <Form.Item>
-            <Input onChange={(event) => {
+            <Input placeholder={'项目名称'} onChange={(event) => {
                 setParam({...param, name: event.target.value})
             }}/>
         </Form.Item>

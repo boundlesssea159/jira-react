@@ -71,9 +71,3 @@ const CreateProjectForm = styled.div`
   align-items: center;
   justify-content: center;
 `
-
-// todo add edit project button
-//  1. fetch the project detail (hook)
-//  2. edit the project detail (Boolean(id))
-
-// todo encapsulate the <Select> for user list
