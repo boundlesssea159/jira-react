@@ -3,7 +3,7 @@ import {Button, Dropdown, Table, TableProps} from "antd";
 import dayjs from 'dayjs';
 import {Link} from "react-router-dom";
 import {Pin} from "../../component/pin";
-import {useDeleteProject, useEditProject, useProjectModal} from "../../utils/projects";
+import {useDeleteProject, useEditProject, useProjectModal, useProjects} from "../../utils/projects";
 import {User} from "../../auth-provider";
 
 export interface Project {
@@ -20,32 +20,17 @@ interface ListProps extends TableProps<Project> {
 }
 
 export const List = (listProps: ListProps) => {
-    const [projectRates, setProjectRates] = useState<Map<number, boolean>>();
     const {openEditProject} = useProjectModal()
-    useEffect(() => {
-        const rateMap = new Map<number, boolean>();
-        listProps.dataSource?.forEach((project) => {
-            rateMap.set(project.id, project.pin);
-        })
-        setProjectRates(rateMap);
-    }, [listProps.dataSource])
-
     const editProject = useEditProject()
     const deleteProject = useDeleteProject()
-
     return <Table {...listProps} columns={[
         {
             title: <Pin key={'title'} checked={true} disabled={true}/>,
             key: 'pin',
             render: (project) => {
-                return <Pin key={'item'} checked={projectRates?.get(project.id)} onCheckedChange={async (pin) => {
-                    await editProject.mutate({id: project.id, pin})
-                    if (!editProject.isError) {
-                        const newMap = new Map(projectRates)
-                        newMap.set(project.id, pin)
-                        setProjectRates(newMap)
-                    }
-                }}/>
+                return <Pin key={'item'}
+                            checked={project.pin}
+                            onCheckedChange={async (pin) => await editProject.mutate({id: project.id, pin})}/>
             }
         },
         {
