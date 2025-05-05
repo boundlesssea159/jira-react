@@ -6,6 +6,7 @@ import {AuthenticatedApp} from "./authenticated-app";
 import {ErrorBoundary} from "react-error-boundary";
 import {BrowserRouter} from "react-router-dom";
 import {QueryClient, QueryClientProvider} from "react-query";
+import {ReactQueryDevtools} from "react-query/devtools";
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
                         <InnerApp/>
                     </div>
                 </AuthContextProvider>
+                <ReactQueryDevtools initialIsOpen={false}/>
             </QueryClientProvider>
         </BrowserRouter>
     );
