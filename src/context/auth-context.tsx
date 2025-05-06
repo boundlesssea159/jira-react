@@ -3,6 +3,7 @@ import {Spin} from "antd";
 import * as auth from "auth-provider"
 import {getUser, User} from "auth-provider";
 import {useAsync} from "../utils/use-async";
+import {useQueryClient} from "react-query";
 
 export const AuthContext = React.createContext<{
     user: User | null,
@@ -18,6 +19,8 @@ interface AuthForm {
 
 export const AuthContextProvider = ({children}: { children: ReactNode }) => {
     const {run, isLoading, error, data: user, setData: setUser} = useAsync<User>()
+
+    const queryClient = useQueryClient();
 
     useEffect(() => {
         run((async () => {
@@ -39,7 +42,10 @@ export const AuthContextProvider = ({children}: { children: ReactNode }) => {
 
     const login = (form: AuthForm) => auth.login(form).then(user => setUser(user)).catch((error) => Promise.reject(error))
     const register = (form: AuthForm) => auth.register(form).then(user => setUser(user)).catch((error) => Promise.reject(error))
-    const logout = () => auth.logout().then(() => setUser(null)).catch((error) => Promise.reject(error))
+    const logout = () => auth.logout().then(() => {
+        queryClient.clear()
+        setUser(null)
+    }).catch((error) => Promise.reject(error))
 
     return <AuthContext.Provider value={{user, login, register, logout}}>{children}</AuthContext.Provider>
 }

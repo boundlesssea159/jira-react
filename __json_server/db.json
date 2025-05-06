@@ -48,7 +48,7 @@
       "personId": 3,
       "organization": "外卖组",
       "created": "2023-03-10T08:00:00.000Z",
-      "pin": true
+      "pin": false
     },
     {
       "name": "测试项目",
@@ -56,14 +56,23 @@
       "organization": "测试部门",
       "created": "2025/5/3",
       "id": 5,
-      "pin": false
+      "pin": true
     },
     {
       "name": "卷卷",
       "personId": 2,
       "organization": "卷王",
       "created": "2025/5/3",
-      "id": 6
+      "id": 6,
+      "pin": true
+    },
+    {
+      "name": "佛山市",
+      "personId": 1,
+      "organization": "df",
+      "created": "2025/5/4",
+      "id": 7,
+      "pin": true
     }
   ]
 }
