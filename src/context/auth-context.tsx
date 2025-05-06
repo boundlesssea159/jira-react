@@ -26,7 +26,7 @@ export const AuthContextProvider = ({children}: { children: ReactNode }) => {
         run((async () => {
             return {id: "", name: getUser().name ?? "", token: getUser().token ?? ""}
         })())
-    }, [])
+    }, [run])
 
     // during the time of fetching user data , show the waiting page
     if (isLoading) {

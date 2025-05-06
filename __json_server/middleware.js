@@ -9,6 +9,17 @@ module.exports = (req, res, next) => {
                 }
             }) : res.status(401).json({message: "用户名或密码错误"})
     }
+
+    if (req.method === 'POST' && req.path === '/register') {
+        return res.status(200).json({
+            user: {
+                id: "2",
+                name: req.body.username,
+                token: req.body.password
+            }
+        })
+    }
+
     next();
 }
 
