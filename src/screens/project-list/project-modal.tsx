@@ -1,5 +1,5 @@
 import {Button, Drawer, Form, Input} from "antd";
-import {useAddProject, useEditProject, useProjectModal} from "../../utils/projects";
+import {useAddProject, useEditProject, useProjectModal, useProjectsSearchParamsQueryKey} from "../../utils/projects";
 import styled from "@emotion/styled";
 import {useForm} from "antd/es/form/Form";
 import {UserSelect} from "../../component/user-select";
@@ -7,8 +7,8 @@ import {useEffect} from "react";
 
 export const ProjectModal = () => {
     const {openModal, close, project} = useProjectModal()
-    const add = useAddProject()
-    const edit = useEditProject()
+    const add = useAddProject(useProjectsSearchParamsQueryKey())
+    const edit = useEditProject(useProjectsSearchParamsQueryKey())
 
     const [form] = useForm()
     const onFinish = (values: any) => {

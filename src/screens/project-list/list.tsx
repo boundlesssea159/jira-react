@@ -1,9 +1,14 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import {Button, Dropdown, Table, TableProps} from "antd";
 import dayjs from 'dayjs';
 import {Link} from "react-router-dom";
 import {Pin} from "../../component/pin";
-import {useDeleteProject, useEditProject, useProjectModal, useProjects} from "../../utils/projects";
+import {
+    useDeleteProject,
+    useEditProject,
+    useProjectModal,
+    useProjectsSearchParamsQueryKey
+} from "../../utils/projects";
 import {User} from "../../auth-provider";
 
 export interface Project {
@@ -21,8 +26,8 @@ interface ListProps extends TableProps<Project> {
 
 export const List = (listProps: ListProps) => {
     const {openEditProject} = useProjectModal()
-    const editProject = useEditProject()
-    const deleteProject = useDeleteProject()
+    const editProject = useEditProject(useProjectsSearchParamsQueryKey())
+    const deleteProject = useDeleteProject(useProjectsSearchParamsQueryKey())
     return <Table {...listProps} columns={[
         {
             title: <Pin key={'title'} checked={true} disabled={true}/>,
@@ -82,7 +87,7 @@ export const List = (listProps: ListProps) => {
                             key: "delete",
                             label: (
                                 <Button key={'deleteProject'} type={"link"}
-                                        onClick={() => deleteProject.mutate(project.id)}>删除</Button>)
+                                        onClick={() => deleteProject.mutate({id: project.id})}>删除</Button>)
                         },
                     ]
                 }}>

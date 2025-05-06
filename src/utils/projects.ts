@@ -2,12 +2,47 @@ import {Project} from "../screens/project-list/list";
 import qs from "qs";
 import {cleanObject} from "./index";
 import {useUrlQueryParams} from "./use-url";
-import {useMutation, useQuery, useQueryClient} from "react-query";
+import {QueryKey, useMutation, useQuery, useQueryClient} from "react-query";
 
 const serviceUrl = process.env.REACT_APP_API_URL
-export const useEditProject = () => {
-    const queryClient = useQueryClient()
+export const useProjectsSearchParamsQueryKey = () => {
     const [params] = useUrlQueryParams(['name', 'personId'])
+    return [
+        "projects",
+        params
+    ] as const
+}
+// define other queryKey
+const useOptimisticUpdater = (queryKey: QueryKey, action: (oldData?: any[], target?: any) => any) => {
+    const queryClient = useQueryClient()
+    return {
+        onSuccess: () => {
+            // if not set exact:true manually, all caches that key contains "projects" will be updated
+            // such as keys: ["projects",{name:"",personId:""}],["projects",{name:"",personId:1}],["projects",{name:"物料管理",personId:""}], all relative caches will be updated
+            queryClient.invalidateQueries(queryKey)
+        },
+        // pre handle the cached data before query
+        onMutate: (target: any) => {
+            // find the project in the cache
+            const preData = queryClient.getQueryData(queryKey);
+            // update the cached project
+            queryClient.setQueryData(queryKey, (oldData?: any) => {
+                // return oldData ? oldData.map(project => project.id === target.id ? {...project, ...target} : project) : []
+                return action(oldData, target)
+            })
+            // return for onError
+            return preData
+        },
+        onError: (error: any, variables: any, context: any) => {
+            queryClient.setQueryData(queryKey, context.preData)
+        },
+    }
+}
+
+export const useEditProject = (queryKey: QueryKey) => {
+    const optimisticUpdater = useOptimisticUpdater(queryKey, (oldData?: any[], target?: any) => {
+        return oldData ? oldData.map(project => project.id === target.id ? {...project, ...target} : project) : []
+    })
     return useMutation({
         mutationFn: (params: Partial<Project>) => fetch(`${serviceUrl}/projects/${params.id}`, {
             method: 'PATCH',
@@ -16,32 +51,15 @@ export const useEditProject = () => {
             },
             body: JSON.stringify(params),
         }),
-        onSuccess: () =>{
-            // if not set exact:true manually, all caches that key contains "projects" will be updated
-            // such as keys: ["projects",{name:"",personId:""}],["projects",{name:"",personId:1}],["projects",{name:"物料管理",personId:""}], all relative caches will be updated
-            queryClient.invalidateQueries({queryKey: 'projects'})
-        },
-        // pre handle the cached data before query
-        onMutate: (target) => {
-            // find the project in the cache
-            const queryKey = ["projects", params];
-            const preData = queryClient.getQueryData(queryKey);
-            // update the cached project
-            queryClient.setQueryData(queryKey, (oldData?: Project[]) => {
-                return oldData ? oldData.map(project => project.id === target.id ? {...project, ...target} : project) : []
-            })
-            // return for onError
-            return preData
-        },
-        onError: (error, variables, context: any) => {
-            queryClient.setQueryData(["projects", params], context.preData)
-        },
+        ...optimisticUpdater,
     })
 }
 
 
-export const useAddProject = () => {
-    const queryClient = useQueryClient()
+export const useAddProject = (queryKey: QueryKey) => {
+    const optimisticUpdater = useOptimisticUpdater(queryKey, (oldData?: any[], target?: any) => {
+        return oldData ? [...oldData, target] : [target]
+    })
     return useMutation({
         mutationFn: (params: Partial<Project>) => fetch(`${serviceUrl}/projects`, {
             method: 'POST',
@@ -50,9 +68,7 @@ export const useAddProject = () => {
             },
             body: JSON.stringify(params),
         }),
-        onSuccess: () => {
-            queryClient.invalidateQueries('projects')
-        }
+        ...optimisticUpdater
     })
 }
 
@@ -98,15 +114,15 @@ export const useProject = (id: number) => {
     }
 }
 
-export const useDeleteProject = () => {
-    const queryClient = useQueryClient()
+export const useDeleteProject = (queryKey: QueryKey) => {
+    const optimisticUpdater = useOptimisticUpdater(queryKey, (oldData?: any[], target?: any) => {
+        return oldData ? oldData.filter(project => project.id !== target.id) : []
+    })
     return useMutation({
-        mutationFn: (id: number) => fetch(`${serviceUrl}/projects/${id}`, {
+        mutationFn: (target: { id: number }) => fetch(`${serviceUrl}/projects/${target.id}`, {
             method: 'DELETE',
         }),
-        onSuccess: () => {
-            queryClient.invalidateQueries('projects')
-        }
+        ...optimisticUpdater
     })
 }
 
