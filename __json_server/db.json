@@ -67,12 +67,104 @@
       "pin": true
     },
     {
-      "name": "佛山市",
+      "name": "佛山市dsf",
       "personId": 1,
       "organization": "df",
       "created": "2025/5/4",
       "id": 7,
       "pin": true
+    }
+  ],
+  "kanbans": [
+    {
+      "id": 1,
+      "name": "待开发",
+      "projectId": 1,
+      "status": "待开发"
+    },
+    {
+      "id": 2,
+      "name": "开发中",
+      "projectId": 1,
+      "status": "开发中"
+    },
+    {
+      "id": 3,
+      "name": "已完成",
+      "projectId": 1,
+      "status": "已完成"
+    }
+  ],
+  "tasks": [
+    {
+      "id": 1,
+      "name": "待开发任务1",
+      "projectId": 1,
+      "processorId": 1,
+      "epicId": "",
+      "kanbanId": 1,
+      "typeId": "",
+      "note": "待开发"
+    },
+    {
+      "id": 2,
+      "name": "待开发任务2",
+      "projectId": 1,
+      "processorId": 1,
+      "epicId": "",
+      "kanbanId": 1,
+      "typeId": "",
+      "note": "待开发"
+    },
+    {
+      "id": 3,
+      "name": "开发中任务1",
+      "projectId": 1,
+      "processorId": 1,
+      "epicId": "",
+      "kanbanId": 2,
+      "typeId": "",
+      "note": "开发中"
+    },
+    {
+      "id": 4,
+      "name": "开发中任务2",
+      "projectId": 1,
+      "processorId": 1,
+      "epicId": "",
+      "kanbanId": 2,
+      "typeId": "",
+      "note": "开发中"
+    },
+    {
+      "id": 5,
+      "name": "已完成任务1",
+      "projectId": 1,
+      "processorId": 1,
+      "epicId": "",
+      "kanbanId": 3,
+      "typeId": "",
+      "note": "已完成"
+    },
+    {
+      "id": 6,
+      "name": "已完成任务2",
+      "projectId": 1,
+      "processorId": 1,
+      "epicId": "",
+      "kanbanId": 3,
+      "typeId": "",
+      "note": "已完成"
+    },
+    {
+      "id": 7,
+      "name": "已完成任务",
+      "projectId": 2,
+      "processorId": 1,
+      "epicId": "",
+      "kanbanId": 3,
+      "typeId": "",
+      "note": "已完成"
     }
   ]
 }

@@ -3,6 +3,7 @@ import {cleanObject} from "./index";
 import {useUrlQueryParams} from "./use-url";
 import {QueryKey, useMutation, useQuery, useQueryClient} from "react-query";
 import {Project} from "../types/project";
+import {useLocation} from "react-router";
 
 const serviceUrl = process.env.REACT_APP_API_URL
 export const useProjectsSearchParamsQueryKey = () => {
@@ -146,4 +147,15 @@ export const useProjectModal = () => {
         project,
         openEditProject,
     }
+}
+
+export const useProjectIdFromUrl = () => {
+    const url = useLocation();
+    const id = url.pathname.match(/\/projects\/(\d+)/)?.[1];
+    return Number(id)
+}
+
+export const useProjectFromUrl = () => {
+    const {data: project} = useProject(useProjectIdFromUrl());
+    return project
 }
