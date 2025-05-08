@@ -1,8 +1,8 @@
-import {Project} from "../screens/project-list/list";
 import qs from "qs";
 import {cleanObject} from "./index";
 import {useUrlQueryParams} from "./use-url";
 import {QueryKey, useMutation, useQuery, useQueryClient} from "react-query";
+import {Project} from "../types/project";
 
 const serviceUrl = process.env.REACT_APP_API_URL
 export const useProjectsSearchParamsQueryKey = () => {

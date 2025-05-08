@@ -3,22 +3,9 @@ import {Button, Dropdown, Table, TableProps} from "antd";
 import dayjs from 'dayjs';
 import {Link} from "react-router-dom";
 import {Pin} from "../../component/pin";
-import {
-    useDeleteProject,
-    useEditProject,
-    useProjectModal,
-    useProjectsSearchParamsQueryKey
-} from "../../utils/projects";
+import {useDeleteProject, useEditProject, useProjectModal, useProjectsSearchParamsQueryKey} from "../../utils/projects";
 import {User} from "../../auth-provider";
-
-export interface Project {
-    "id": number,
-    "name": string,
-    "personId": string,
-    "organization": string,
-    "created": string,
-    "pin": boolean
-}
+import {Project} from "../../types/project";
 
 interface ListProps extends TableProps<Project> {
     users: User[];
