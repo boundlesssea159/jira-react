@@ -19,8 +19,7 @@ export const KanbanColumn = (props: { kanban: Kanban }) => {
     </ColumnContainer>
 }
 
-const ColumnContainer
-    = styled.div`
+const ColumnContainer = styled.div`
   min-width: 30rem;
   padding: 0.5rem;
   border-radius: 6px;

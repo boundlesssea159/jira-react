@@ -24,6 +24,6 @@ export const Kanban = () => {
 
 const KanbanContainer = styled.div`
   display: flex;
-  justify-content: start;
-  //overflow: hidden;
+  justify-content: flex-start;
+  overflow-x: scroll;
 `
