@@ -2,6 +2,7 @@ import {useKanbans} from "../../utils/kanban";
 import styled from "@emotion/styled";
 import {useProjectFromUrl} from "../../utils/projects";
 import {KanbanColumn} from "./kanban-column";
+import {SearchPanel} from "./search-panel";
 
 export const Kanban = () => {
     // find project by id in url && get project data
@@ -12,6 +13,7 @@ export const Kanban = () => {
 
     return <>
         <h2>{project?.name}看板</h2>
+        <SearchPanel/>
         <KanbanContainer>
             {
                 data?.map(kanban => <KanbanColumn kanban={kanban}/>)
