@@ -1,5 +1,5 @@
-import {Link} from "react-router-dom";
-import {Navigate, Route, Routes} from "react-router";
+import {useNavigate} from "react-router-dom";
+import {Navigate, Route, Routes, useLocation} from "react-router";
 import {Kanban} from "../kanban";
 import {Epic} from "../epic";
 import {Tabs} from "antd";
@@ -18,18 +18,21 @@ export const ProjectScreen = () => {
 }
 
 const LeftMenu = () => {
+    const location = useLocation()
+    const navigate = useNavigate()
+    const activeKey = location.pathname.split('/').pop()
     return <Tabs
         tabPosition={'left'}
+        activeKey={activeKey}
+        onChange={(key) => navigate(key)}
         items={[
             {
                 label: '看板',
                 key: 'kanban',
-                children: <Link to={"kanban"}/>,
             },
             {
                 label: '任务组',
                 key: 'epic',
-                children: <Link to={"epic"}/>,
             },
         ]}
     />
