@@ -27,12 +27,13 @@ export const ColumnContainer = styled.div`
   border-radius: 6px;
   background-color: #eee;
   margin-right: 1rem;
+  height: 70vh;
+  overflow: scroll;
 `
 
 const TaskContainer = styled.div`
   display: flex;
   flex-direction: column;
-  overflow: scroll;
   flex: 1;
 
   ::-webkit-scrollbar {

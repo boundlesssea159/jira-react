@@ -206,6 +206,36 @@
       "kanbanId": 3,
       "projectId": 1,
       "id": 13
+    },
+    {
+      "name": "3e",
+      "kanbanId": 2,
+      "projectId": 1,
+      "id": 14
+    },
+    {
+      "name": "s'd'f'd",
+      "kanbanId": 2,
+      "projectId": 1,
+      "id": 15
+    },
+    {
+      "name": "水电费水电费",
+      "kanbanId": 2,
+      "projectId": 1,
+      "id": 16
+    },
+    {
+      "name": "收到焚烧发电",
+      "kanbanId": 2,
+      "projectId": 1,
+      "id": 17
+    },
+    {
+      "name": "水电费第三方",
+      "kanbanId": 2,
+      "projectId": 1,
+      "id": 18
     }
   ]
 }

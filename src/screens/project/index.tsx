@@ -7,7 +7,7 @@ import {Tabs} from "antd";
 export const ProjectScreen = () => {
     return <div style={{display: "flex"}}>
         <LeftMenu/>
-        <div style={{flex: 1, overflow: "hidden"}}>
+        <div style={{flex: 1}}>
             <Routes>
                 <Route path={"kanban"} element={<Kanban/>}/>
                 <Route path={"epic"} element={<Epic/>}/>
