@@ -95,16 +95,9 @@
       "status": "已完成"
     },
     {
-      "id": 4,
-      "name": "已完成",
+      "name": "测试看板",
       "projectId": 1,
-      "status": "已完成"
-    },
-    {
-      "id": 5,
-      "name": "已完成",
-      "projectId": 1,
-      "status": "已完成"
+      "id": 6
     }
   ],
   "tasks": [
