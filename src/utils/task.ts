@@ -1,11 +1,21 @@
-import {useQuery} from "react-query";
+import {QueryKey, useMutation, useQuery} from "react-query";
 import {Task} from "../types/task";
 import qs from "qs";
 import {cleanObject} from "./index";
+import {useOptimisticUpdater} from "./use-optimistic-updater";
+import {useProjectIdFromUrl} from "./projects";
 
 const serviceUrl = process.env.REACT_APP_API_URL
+
+export const useTaskQueryKey = (kanbanId: number) => {
+    const projectId = useProjectIdFromUrl()
+    return [
+        'tasks',
+        {projectId: projectId, kanbanId: kanbanId}
+    ]
+}
 export const useTasks = (params: { projectId: number, processorId?: number, name?: string }) => {
-    const {data, isLoading, error} = useQuery<Task[], Error>(["tasks", params], () => {
+    const {data, isLoading, error} = useQuery<Task[], Error>(["tasks", cleanObject(params)], () => {
         return fetch(`${serviceUrl}/tasks?${qs.stringify(cleanObject(params))}`)
             .then(async response => {
                 if (response.status === 200) {
@@ -19,4 +29,20 @@ export const useTasks = (params: { projectId: number, processorId?: number, name
         error,
         data
     }
+}
+
+export const useAddTask = (queryKey: QueryKey) => {
+    const optimisticUpdater = useOptimisticUpdater(queryKey, (oldData?: any[], target?: any) => {
+        return oldData ? [...oldData, target] : [target]
+    })
+    return useMutation({
+        mutationFn: (params: Partial<Task>) => fetch(`${serviceUrl}/tasks`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(params),
+        }),
+        ...optimisticUpdater
+    })
 }

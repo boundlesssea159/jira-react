@@ -3,6 +3,7 @@ import {useTasks} from "../../utils/task";
 import styled from "@emotion/styled";
 import {Card} from "antd";
 import {useUrlQueryParams} from "../../utils/use-url";
+import {CreateTask} from "./create-task";
 
 export const KanbanColumn = (props: { kanban: Kanban }) => {
     const [urlParams] = useUrlQueryParams(['name', 'processorId']);
@@ -15,6 +16,7 @@ export const KanbanColumn = (props: { kanban: Kanban }) => {
                 data?.filter(task => task.kanbanId === props.kanban.id)
                     .map(task => <Card style={{marginTop: '1rem'}}>{task.name}</Card>)
             }
+            <CreateTask kanbanId={props.kanban.id}/>
         </TaskContainer>
     </ColumnContainer>
 }

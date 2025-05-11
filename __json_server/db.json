@@ -170,6 +170,42 @@
       "kanbanId": 3,
       "typeId": "",
       "note": "已完成"
+    },
+    {
+      "name": "待开发任务3",
+      "kanbanId": 1,
+      "projectId": 1,
+      "id": 8
+    },
+    {
+      "name": "待开发任务4",
+      "kanbanId": 1,
+      "projectId": 1,
+      "id": 9
+    },
+    {
+      "name": "开发中任务3",
+      "kanbanId": 2,
+      "projectId": 1,
+      "id": 10
+    },
+    {
+      "name": "开发中任务4",
+      "kanbanId": 2,
+      "projectId": 1,
+      "id": 11
+    },
+    {
+      "name": "开发中任务5",
+      "kanbanId": 2,
+      "projectId": 1,
+      "id": 12
+    },
+    {
+      "name": "已完成任务3",
+      "kanbanId": 3,
+      "projectId": 1,
+      "id": 13
     }
   ]
 }
