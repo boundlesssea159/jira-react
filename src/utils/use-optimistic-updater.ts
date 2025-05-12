@@ -5,8 +5,7 @@ export const useOptimisticUpdater = (queryKey: QueryKey, action: (oldData?: any[
     const queryClient = useQueryClient()
     return {
         onSuccess: () => {
-            // if not set exact:true manually, all caches that key contains "projects" will be updated
-            // such as keys: ["projects",{name:"",personId:""}],["projects",{name:"",personId:1}],["projects",{name:"物料管理",personId:""}], all relative caches will be updated
+            // default is fuzzy matching: match all keys that start with queryKey
             queryClient.invalidateQueries(queryKey)
         },
         // pre handle the cached data before query
