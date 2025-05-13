@@ -240,6 +240,12 @@
       "kanbanId": 2,
       "projectId": 1,
       "id": 18
+    },
+    {
+      "name": "",
+      "kanbanId": 6,
+      "projectId": 1,
+      "id": 19
     }
   ]
 }
