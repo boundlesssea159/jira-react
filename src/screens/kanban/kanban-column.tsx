@@ -27,20 +27,24 @@ export const KanbanColumn = (props: { kanban: Kanban }) => {
 }
 
 export const ColumnContainer = styled.div`
+  display: flex;
+  flex-direction: column;
   min-width: 30rem;
   padding: 0.5rem;
   border-radius: 6px;
   background-color: #eee;
   margin-right: 1rem;
-  height: 70vh;
-  overflow: scroll;
+  flex: 1;
+  min-height: 0;
 `
 
 const TaskContainer = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
-
+  min-height: 0;
+  overflow: scroll;
+  
   ::-webkit-scrollbar {
     display: none;
   }

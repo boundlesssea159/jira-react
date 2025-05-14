@@ -11,7 +11,7 @@ import {ProjectModal} from "./screens/project-list/project-modal";
 import {ProjectPopover} from "./component/project-popover";
 
 export const AuthenticatedApp = () => {
-    return <div>
+    return <AuthenticatedAppContainer>
         <PageHeader/>
         <ProjectModal/>
         <Routes>
@@ -19,8 +19,16 @@ export const AuthenticatedApp = () => {
             <Route path={"/projects"} element={<ProjectListScreen/>}/>
             <Route path={"/projects/:projectId/*"} element={<ProjectScreen/>}/>
         </Routes>
-    </div>
+    </AuthenticatedAppContainer>
 }
+
+const AuthenticatedAppContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden
+`
 
 const PageHeader = () => {
     const {logout, user} = useAuth();
