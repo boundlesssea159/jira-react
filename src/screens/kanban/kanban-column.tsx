@@ -1,7 +1,7 @@
 import {Kanban} from "../../types/kanban";
-import {useTasks} from "../../utils/task";
+import {useDeleteTask, useTasks} from "../../utils/task";
 import styled from "@emotion/styled";
-import {Card} from "antd";
+import {Button, Card} from "antd";
 import {useUrlQueryParams} from "../../utils/use-url";
 import {CreateTask} from "./create-task";
 import {EditTask} from "./edit-task";
@@ -14,6 +14,7 @@ export const KanbanColumn = (props: { kanban: Kanban }) => {
     const {data} = useTasks(
         {projectId: props.kanban.projectId, processorId: Number(urlParams.processorId), name: urlParams.name})
     const [task, setTask] = useState<Task | undefined>()
+    const deleteTask = useDeleteTask(['tasks'])
     return <ColumnContainer key={props.kanban.id}>
         <div style={{display: 'flex', justifyContent: 'space-between'}}>
             <h2>{props.kanban.name}</h2>
@@ -22,7 +23,19 @@ export const KanbanColumn = (props: { kanban: Kanban }) => {
         <TaskContainer>
             {
                 data?.filter(task => task.kanbanId === props.kanban.id)
-                    .map(task => <Card onClick={() => setTask(task)} style={{marginTop: '1rem'}}>{task.name}</Card>)
+                    .map(task =>
+                        <Card onClick={() => setTask(task)} style={{marginTop: '1rem'}}>
+                            <div style={{display: "flex", justifyContent: "space-between"}}>
+                                {task.name}
+                                <Button
+                                    size={"small"}
+                                    onClick={(event) => {
+                                        event.stopPropagation()
+                                        deleteTask.mutate({id: task.id})
+                                    }}
+                                >删除</Button>
+                            </div>
+                        </Card>)
             }
             <CreateTask kanbanId={props.kanban.id}/>
         </TaskContainer>

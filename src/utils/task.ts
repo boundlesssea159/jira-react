@@ -89,7 +89,7 @@ export const useEditTask = (queryKey: QueryKey) => {
 
 export const useDeleteTask = (queryKey: QueryKey) => {
     const optimisticUpdater = useOptimisticUpdater(queryKey, (oldData?: any[], target?: any) => {
-        return oldData ? oldData.filter(project => project.id !== target.id) : []
+        return oldData ? oldData.filter(task => task.id !== target.id) : []
     })
     return useMutation({
         mutationFn: (target: { id: number }) => fetch(`${serviceUrl}/tasks/${target.id}`, {
