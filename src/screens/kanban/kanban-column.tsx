@@ -7,6 +7,7 @@ import {CreateTask} from "./create-task";
 import {EditTask} from "./edit-task";
 import {useState} from "react";
 import {Task} from "../../types/task";
+import {DeleteKanban} from "./delete-kanban";
 
 export const KanbanColumn = (props: { kanban: Kanban }) => {
     const [urlParams] = useUrlQueryParams(['name', 'processorId']);
@@ -14,7 +15,10 @@ export const KanbanColumn = (props: { kanban: Kanban }) => {
         {projectId: props.kanban.projectId, processorId: Number(urlParams.processorId), name: urlParams.name})
     const [task, setTask] = useState<Task | undefined>()
     return <ColumnContainer key={props.kanban.id}>
-        <h2>{props.kanban.name}</h2>
+        <div style={{display: 'flex', justifyContent: 'space-between'}}>
+            <h2>{props.kanban.name}</h2>
+            <DeleteKanban kanbanId={props.kanban.id}/>
+        </div>
         <TaskContainer>
             {
                 data?.filter(task => task.kanbanId === props.kanban.id)
@@ -44,7 +48,7 @@ const TaskContainer = styled.div`
   flex: 1;
   min-height: 0;
   overflow: scroll;
-  
+
   ::-webkit-scrollbar {
     display: none;
   }

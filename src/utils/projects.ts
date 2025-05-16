@@ -134,3 +134,4 @@ export const useProjectFromUrl = () => {
     const {data: project} = useProject(useProjectIdFromUrl());
     return project
 }
+

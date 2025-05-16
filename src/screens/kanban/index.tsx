@@ -4,6 +4,7 @@ import {useProjectFromUrl} from "../../utils/projects";
 import {KanbanColumn} from "./kanban-column";
 import {SearchPanel} from "./search-panel";
 import {CreateKanban} from "./create-kanban";
+import {DeleteKanban} from "./delete-kanban";
 
 export const Kanban = () => {
     // find project by id in url && get project data

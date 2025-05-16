@@ -49,3 +49,15 @@ export const useAddKanban = (queryKey: QueryKey) => {
         ...optimisticUpdater
     })
 }
+
+export const useDeleteKanban = (queryKey: QueryKey) => {
+    const optimisticUpdater = useOptimisticUpdater(queryKey, (oldData?: any[], target?: any) => {
+        return oldData ? oldData.filter(kanban => kanban.id !== target.id) : []
+    })
+    return useMutation({
+        mutationFn: (target: { id: number }) => fetch(`${serviceUrl}/kanbans/${target.id}`, {
+            method: 'DELETE',
+        }),
+        ...optimisticUpdater
+    })
+}

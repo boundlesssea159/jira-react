@@ -93,11 +93,6 @@
       "name": "已完成",
       "projectId": 1,
       "status": "已完成"
-    },
-    {
-      "name": "测试看板",
-      "projectId": 1,
-      "id": 6
     }
   ],
   "tasks": [
@@ -240,12 +235,6 @@
       "kanbanId": 2,
       "projectId": 1,
       "id": 18
-    },
-    {
-      "name": "",
-      "kanbanId": 6,
-      "projectId": 1,
-      "id": 19
     }
   ]
 }
